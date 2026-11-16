@@ -1,0 +1,1033 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fraserview Redesign Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Anek+Gurmukhi:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Layout: one long Behance-style scroll. Sections alternate mist / white / deeper mist,
+   closing on a dark reflection. Devices float with soft contact shadows; process is drawn
+   as a route map; handoff uses huge faded numerals for rhythm.
+   Single deliberate light look built on the Fraserview system, so no dark-theme blocks. */
+:root{
+  --mist:#dae1f1;        /* Mist Blue, page ground */
+  --mist-deep:#cdd5e8;   /* alternate band */
+  --white:#f7f8fb;       /* white sections, a hair cool */
+  --ghost:#c3cadc;       /* giant background words */
+  --ink:#0b0b0d;         /* Jet Black */
+  --navy:#1f2a37;        /* Charcoal Blue Gray */
+  --deep:#1a1f2b;        /* Deep Navy */
+  --cloud:#f2f4f5;       /* Cloud White */
+  --red:#c4302b;         /* Signal Red: "before" problems and the hand-drawn mark */
+  --green:#2f7d4f;       /* Notion "Done" */
+  --blue:#2f6fd6;        /* Notion "In progress" */
+  --soft:#6e7385;        /* light half of two-tone headlines (large text only) */
+  --muted:#474c5c;
+  --line:rgba(11,11,13,.14);
+  --f-display:"Inter Tight","Helvetica Neue",Arial,sans-serif;
+  --f-brand:"Anek Gurmukhi","Inter Tight",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --f-hand:"Caveat","Comic Sans MS",cursive;
+  --wrap:1240px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--mist);color:var(--ink);font-family:var(--f-display);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+figure{margin:0}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:clamp(16px,4vw,48px)}
+section{padding-block:clamp(80px,11vw,160px);position:relative}
+.band{background:var(--mist-deep)}
+.white{background:var(--white)}
+.dark{background:var(--deep);color:var(--cloud)}
+
+/* type */
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
+.h-xl,.h-l,.h-m{font-weight:400;letter-spacing:-.045em;line-height:.98;margin:0;text-wrap:balance}
+.h-xl{font-size:clamp(48px,8.4vw,118px)}
+.h-l{font-size:clamp(40px,6.2vw,88px)}
+.h-m{font-size:clamp(30px,3.8vw,52px);letter-spacing:-.035em;line-height:1.04}
+.soft{color:var(--soft)}
+.lead{font-size:clamp(17px,1.5vw,19px);color:var(--muted);max-width:52ch;margin:22px 0 0}
+p{margin:0}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* top bar */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding-block:22px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:500;letter-spacing:-.02em;font-size:18px}
+.brand svg{width:26px;height:26px}
+.brand span{color:var(--soft)}
+.pill{border:1px solid var(--line);border-radius:999px;padding:9px 18px;font-size:13px;background:var(--cloud);white-space:nowrap;text-decoration:none}
+.topbar nav{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--muted)}
+@media (max-width:640px){.topbar nav .hide-s{display:none}.pill{padding:8px 14px}}
+
+/* hero */
+.hero{padding-top:clamp(28px,5vw,60px);padding-bottom:clamp(60px,8vw,110px);text-align:center;overflow:hidden}
+.hero .h-xl{position:relative;z-index:2}
+.hero .lead{margin-inline:auto;text-align:center}
+.ghostword{position:absolute;left:50%;transform:translateX(-50%);font-weight:300;letter-spacing:-.06em;line-height:.8;color:var(--ghost);white-space:nowrap;pointer-events:none;user-select:none;z-index:0}
+.hero .ghostword{top:46%;font-size:clamp(120px,24vw,380px)}
+.hero-stage{position:relative;margin-top:clamp(40px,6vw,72px);z-index:1}
+.glass{position:absolute;z-index:3;text-align:left;font-size:13px;line-height:1.3;color:var(--ink);
+  padding:14px 18px;border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(255,255,255,.18));
+  border:1px solid rgba(255,255,255,.7);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);
+  box-shadow:0 20px 40px -24px rgba(26,31,43,.45), inset 0 1px 0 rgba(255,255,255,.8);
+  animation:bob 7s ease-in-out infinite}
+.glass b{display:block;font-size:22px;font-weight:500;letter-spacing:-.03em}
+.glass.c1{left:1%;top:16%}
+.glass.c2{right:0;top:4%;animation-delay:-2s}
+.glass.c3{right:6%;bottom:16%;animation-delay:-4s}
+.glass.c4{left:7%;bottom:8%;animation-delay:-5s}
+@keyframes bob{50%{transform:translateY(-10px)}}
+@media (max-width:860px){.glass{display:none}}
+@media (prefers-reduced-motion:reduce){.glass,.live i{animation:none}html{scroll-behavior:auto}}
+
+/* devices */
+.laptop{width:min(88%,980px);margin:0 auto;position:relative}
+.laptop .lid{background:#0d0e11;border-radius:22px 22px 6px 6px;padding:2.2% 2.2% 2.6%;box-shadow:inset 0 0 0 2px #2b2e35, 0 0 0 1.5px #9ea3ad;position:relative}
+.laptop .lid::before{content:"";position:absolute;top:.9%;left:50%;width:7px;height:7px;border-radius:50%;background:#23262c;transform:translateX(-50%)}
+.laptop .base{height:clamp(12px,1.6vw,20px);margin:0 -6.5%;background:linear-gradient(#e6e8ec,#b9bdc5 55%,#8d929b);border-radius:2px 2px 16px 16px;position:relative;box-shadow:0 30px 50px -22px rgba(20,24,34,.55)}
+.laptop .base::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:16%;height:42%;background:#a9aeb7;border-radius:0 0 10px 10px}
+.screen{position:relative;background:var(--deep);overflow:hidden;aspect-ratio:16/10}
+.laptop .screen{border-radius:4px}
+.screen.scroll{overflow-y:auto;scrollbar-width:thin}
+.screen img{width:100%;height:auto}
+.screen.fit img{height:100%;object-fit:cover;object-position:top}
+.phone{width:min(100%,300px);aspect-ratio:390/844;border-radius:48px;background:#0d0e11;padding:11px;position:relative;box-shadow:0 0 0 2px #b8bcc4, 0 0 0 3.5px #6f747d, 0 40px 60px -30px rgba(20,24,34,.6)}
+.phone::before{content:"";position:absolute;top:22px;left:50%;transform:translateX(-50%);width:30%;height:26px;border-radius:20px;background:#000;z-index:3}
+.phone .screen{border-radius:38px;height:100%;aspect-ratio:auto}
+.phone .screen.scroll{overflow-y:auto;scrollbar-width:none}
+.phone .screen.scroll::-webkit-scrollbar{display:none}
+#services{overflow:hidden}
+.tilt-wrap{perspective:1600px;display:grid;place-items:center;padding-block:20px 60px;position:relative}
+.tilt{transform:rotateX(18deg) rotateY(-14deg) rotateZ(14deg);transform-style:preserve-3d}
+.contact{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);width:min(70%,420px);height:26px;border-radius:50%;background:radial-gradient(closest-side,rgba(26,31,43,.35),transparent);filter:blur(4px)}
+.browser{background:var(--cloud);border-radius:14px;overflow:hidden;box-shadow:0 40px 80px -40px rgba(20,24,34,.55)}
+.browser .bar{display:flex;align-items:center;gap:7px;padding:12px 16px;border-bottom:1px solid var(--line);font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.browser .bar i{width:10px;height:10px;border-radius:50%;background:#c7ccd8}
+.browser .bar span{margin-left:12px;background:#e3e7ef;border-radius:6px;padding:3px 12px}
+.browser .screen{aspect-ratio:auto;height:min(78vh,820px)}
+
+/* image slots: show the frame name until the PNG is there */
+.slot{position:relative}
+.slot.empty{display:grid;place-items:center;background:repeating-linear-gradient(135deg,rgba(242,244,245,.05) 0 10px,transparent 10px 20px),var(--deep);min-height:160px}
+.slot.empty img{display:none}
+.slot.empty::after{content:attr(data-label);color:#b9c0d3;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-align:center;padding:16px;line-height:1.6;white-space:pre-line}
+.slot.light.empty{background:repeating-linear-gradient(135deg,rgba(11,11,13,.04) 0 10px,transparent 10px 20px),var(--cloud)}
+.slot.light.empty::after{color:var(--muted)}
+.screen.fallback{overflow:hidden}
+.screen.fallback img{height:100%;object-fit:cover;object-position:left top}
+.browser .screen.fallback{height:auto;aspect-ratio:1440/690}
+.hide-empty.empty{display:none}
+
+/* about */
+.statement{text-align:center}
+.statement .h-l{max-width:16.5ch;margin:0 auto;font-size:clamp(34px,5vw,68px);line-height:1.04}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);margin-top:clamp(56px,7vw,96px);text-align:left}
+.facts div{padding:20px 18px 0 0}
+.facts dt{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.facts dd{margin:0;font-size:16px;letter-spacing:-.01em;line-height:1.4}
+.facts dd b{font-weight:400;font-size:clamp(28px,2.6vw,36px);letter-spacing:-.04em;line-height:1.1;display:block;margin-bottom:6px}
+.endrow a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+@media (max-width:760px){.facts{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:20px}}
+
+/* split */
+.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:start}
+.split.rev{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+@media (max-width:900px){.split,.split.rev{grid-template-columns:minmax(0,1fr)}}
+.mark{width:34px;height:34px;margin-bottom:22px}
+
+/* problem */
+.issues{list-style:none;margin:40px 0 0;padding:0;display:grid;border-top:1px solid var(--line)}
+.issues li{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;padding:20px 0;border-bottom:1px solid var(--line);font-size:clamp(19px,1.8vw,24px);letter-spacing:-.02em;align-items:baseline}
+.issues li span{font-family:var(--f-mono);font-size:12px;color:var(--red);letter-spacing:.06em}
+.issues small{display:block;font-size:15px;color:var(--muted);letter-spacing:0;margin-top:4px}
+.before3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px 16px}
+.before3 figure:first-child{grid-column:1/-1}
+.before3 .shot{border-radius:12px;overflow:hidden;aspect-ratio:1000/620;box-shadow:0 30px 60px -36px rgba(20,24,34,.5)}
+.before3 .shot img{width:100%;height:100%;object-fit:cover;object-position:top}
+.before3 figcaption{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);margin-top:10px;letter-spacing:.06em}
+
+/* goal */
+.tasks3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:48px}
+.task{position:relative;border-radius:22px;overflow:hidden;min-height:340px;color:#fff;display:flex;flex-direction:column;padding:24px 24px 28px;isolation:isolate;background:var(--deep)}
+.task img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.task::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:-1}
+.task .n{font-family:var(--f-mono);font-size:12px;border:1px solid rgba(255,255,255,.7);border-radius:999px;padding:3px 12px;align-self:flex-start}
+.task p{font-size:24px;letter-spacing:-.025em;line-height:1.15;margin-top:auto;color:#fff}
+.task .where{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;opacity:.85;margin-top:12px;text-transform:uppercase}
+@media (max-width:760px){.tasks3{grid-template-columns:minmax(0,1fr)}.task{min-height:260px}}
+
+/* tools + communication */
+.tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:56px;align-items:start}
+.tool{position:relative;border-radius:26px;min-height:380px;overflow:hidden;outline:none}
+.tool:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.tool:nth-child(2){margin-top:70px}.tool:nth-child(3){margin-top:20px}.tool:nth-child(4){margin-top:90px}
+.tool .front,.tool .back{position:absolute;inset:0;padding:24px 24px 28px;display:flex;flex-direction:column;transition:transform .45s cubic-bezier(.2,.7,.2,1),opacity .3s}
+.tool .tag{font-family:var(--f-mono);font-size:11px;border:1px solid currentColor;opacity:.75;border-radius:999px;padding:3px 12px;align-self:flex-start}
+.tool .logo{width:40px;height:40px;margin-top:auto;margin-bottom:18px}
+.tool h3{font-weight:400;font-size:34px;letter-spacing:-.04em;line-height:1;margin:0 0 12px}
+.tool .front p{font-size:14.5px;line-height:1.5;opacity:.82}
+.tool .hint{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;opacity:.6;margin-top:14px;text-transform:uppercase}
+.tool .back{transform:translateY(100%);opacity:0}
+.tool .back h4{font-family:var(--f-mono);font-weight:400;font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin:0 0 16px;display:flex;align-items:center;gap:8px}
+.tool .back h4 svg{width:18px;height:18px}
+.tool .back ul{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.tool .back li{font-size:14.5px;line-height:1.45;padding-top:12px;border-top:1px solid rgba(128,134,150,.35)}
+.tool .back li b{display:block;font-weight:600;font-size:16px;margin-bottom:2px}
+.tool:hover .front,.tool:focus .front{transform:translateY(-30%);opacity:0}
+.tool:hover .back,.tool:focus .back{transform:none;opacity:1}
+.t-ink{background:var(--ink);color:var(--cloud)}
+.t-cloud{background:var(--cloud);color:var(--ink)}
+.t-navy{background:var(--navy);color:var(--cloud)}
+.t-deep{background:#2a3446;color:var(--cloud)}
+@media (hover:none),(max-width:900px){
+  .tools{grid-template-columns:repeat(2,minmax(0,1fr))}.tool:nth-child(n){margin-top:0}
+  .tool{min-height:0}.tool .front,.tool .back{position:relative;inset:auto;transform:none !important;opacity:1 !important}
+  .tool .front .logo{margin-top:28px}.tool .back{padding-top:0}.tool .hint{display:none}
+}
+@media (max-width:520px){.tools{grid-template-columns:minmax(0,1fr)}}
+.live{display:flex;gap:14px;align-items:center;margin-top:56px;padding:18px 22px;border-radius:999px;background:var(--cloud);width:fit-content;max-width:100%;font-size:15px}
+.live i{width:10px;height:10px;border-radius:50%;background:var(--red);flex:none;animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(196,48,43,.5)}70%{box-shadow:0 0 0 10px rgba(196,48,43,0)}100%{box-shadow:0 0 0 0 rgba(196,48,43,0)}}
+@media (max-width:640px){.live{border-radius:20px}}
+
+/* tasks: notion */
+.prog{margin-top:72px}
+.segs{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.seg{display:flex;flex-direction:column;gap:12px;min-width:0}
+.seg .track{height:10px;border-radius:99px;background:rgba(11,11,13,.08);overflow:hidden}
+.seg .track i{display:block;height:100%;width:100%;border-radius:99px;background:var(--ink);transform-origin:left;transition:transform .35s ease}
+.seg.today .track i{background:var(--blue)}
+.seg b{font-weight:500;font-size:clamp(17px,1.6vw,22px);letter-spacing:-.025em}
+.seg span{font-size:13px;color:var(--muted);line-height:1.35}
+.baton{display:grid;grid-template-columns:3fr 1fr 3fr;gap:8px;margin-top:22px}
+.baton div{border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.baton b{font-weight:500;font-size:15px}
+.baton span{font-size:12.5px;opacity:.8}
+.b-tak{background:var(--navy);color:var(--cloud)}
+.b-flat{border:1px dashed rgba(11,11,13,.4)}
+.b-yj{background:var(--ink);color:var(--cloud)}
+.baton-note{font-size:14px;color:var(--muted);margin-top:14px;max-width:70ch}
+@media (max-width:760px){.segs{grid-template-columns:repeat(4,minmax(0,1fr));row-gap:22px}.baton{grid-template-columns:minmax(0,1fr)}}
+.notion-stage{position:relative;margin-top:110px;padding:0 0 0 clamp(0px,6vw,90px)}
+.notion-real{position:absolute;left:0;top:-56px;width:46%;transform:rotate(-4deg);border-radius:12px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(20,24,34,.5);z-index:0}
+.notion-real figcaption{position:absolute;left:12px;bottom:10px;font-family:var(--f-mono);font-size:10.5px;background:var(--ink);color:var(--cloud);padding:3px 10px;border-radius:999px}
+.notion{position:relative;z-index:1;background:#fff;border-radius:16px;box-shadow:0 50px 90px -40px rgba(20,24,34,.55);padding:22px clamp(14px,2.4vw,30px) 26px;overflow-x:auto}
+.n-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;min-width:640px}
+.n-head h3{margin:0;font-size:24px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;color:#37352f}
+.n-head h3 i{width:22px;height:22px;border-radius:50%;background:var(--blue);display:grid;place-items:center;color:#fff;font-style:normal;font-size:13px}
+.n-head button{font:inherit;font-size:12.5px;border:1px solid rgba(55,53,47,.2);background:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;color:#37352f}
+.n-head button:hover{background:#f1f1ef}
+.ntable{width:100%;min-width:640px;border-collapse:collapse;font-size:13.5px;color:#37352f}
+.ntable th{font-size:12.5px;font-weight:400;color:#787774;text-align:left;padding:8px 10px;border-bottom:1px solid #ededeb}
+.ntable td{padding:7px 10px;border-bottom:1px solid #ededeb;white-space:nowrap}
+.ntable td:first-child{white-space:normal}
+.st{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:1px 9px;font-size:12.5px}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.st.ns{background:#f1f1ef;color:#787774}
+.st.ip{background:#e7f0fb;color:var(--blue)}
+.st.dn{background:#e8f3ec;color:var(--green)}
+.st.flash{animation:flash .35s ease}
+@keyframes flash{0%{transform:scale(1.15)}100%{transform:none}}
+.ph{border-radius:4px;padding:1px 7px;font-size:12.5px}
+.ph.setup{background:#eeeeec}.ph.goal{background:#f9ecd2}.ph.research{background:#dbe9f6}.ph.evaluate{background:#f8e3d5}.ph.synth{background:#ece4f6}.ph.wire{background:#f1e7df}.ph.design{background:#f9e1e7}.ph.handoff{background:#dfeee4}.ph.slides{background:#fbe0dd}
+.av{display:inline-flex;gap:4px}
+.av span{display:inline-grid;place-items:center;height:20px;min-width:20px;padding:0 7px;border-radius:999px;font-size:11px;font-weight:600}
+.av .t{background:#e3e7ef;color:var(--navy)}
+.av .y{background:var(--ink);color:var(--cloud)}
+@media (max-width:760px){.notion-real{display:none}.notion-stage{padding:0;margin-top:64px}}
+
+/* process: route map */
+.route{margin-top:56px;overflow-x:auto}
+.route svg{width:100%;min-width:760px;height:auto;display:block}
+.route text{font-family:var(--f-display)}
+.route .lbl{font-size:19px;font-weight:500;letter-spacing:-.4px;fill:var(--ink)}
+.route .dt{font-family:var(--f-mono);font-size:12px;fill:var(--muted)}
+.route .lane{font-family:var(--f-mono);font-size:13px;font-weight:600;letter-spacing:1.2px;fill:var(--muted)}
+.legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:20px;font-size:14px;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--ink);vertical-align:-2px;margin-right:8px}
+.legend i.solo{background:var(--white);border:2.5px solid var(--ink)}
+
+/* evaluate */
+.bignum{font-size:clamp(110px,17vw,240px);font-weight:300;letter-spacing:-.07em;line-height:.85}
+.bignum small{font-size:.22em;letter-spacing:-.02em;color:var(--muted);font-weight:400;margin-left:.3em}
+.heur{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,7vw,110px);margin-top:80px;padding-inline:clamp(0px,3vw,40px)}
+.hframe{position:relative}
+.hframe .shot{border-radius:14px;overflow:hidden;aspect-ratio:1440/1150;background:var(--cloud);box-shadow:0 30px 70px -40px rgba(20,24,34,.55)}
+.hframe .shot img{width:100%;height:100%;object-fit:cover;object-position:left top}
+.hframe figcaption{display:flex;gap:10px;align-items:baseline;margin-top:14px;font-size:13px;color:var(--muted)}
+.hframe figcaption b{color:var(--ink);font-weight:600}
+.ann{position:absolute;z-index:2;width:min(250px,64%);background:#fff;border:1px solid #e3e4e8;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:9px 11px 10px;font-family:"Inter","Inter Tight",Arial,sans-serif;font-size:12.5px;line-height:1.4;color:#1e1e1e}
+.ann .cat{display:inline-block;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:4px;background:#ede7fb;color:#5b3fc4;margin-bottom:5px}
+.ann::before{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:#7b61ff;border:2px solid #fff;box-shadow:0 0 0 1px #7b61ff;top:14px}
+.ann.l{left:-12%}.ann.l::before{right:-6px}
+.ann.r{right:-12%}.ann.r::before{left:-6px}
+@media (max-width:860px){.heur{grid-template-columns:minmax(0,1fr);padding-inline:0}.ann.l{left:-2%}.ann.r{right:-2%}}
+.both{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1.3fr);gap:14px;align-items:center;margin-top:72px;padding-top:28px;border-top:1px solid var(--line)}
+.both .q{background:#fff;border-radius:12px;padding:14px 16px;font-size:15px;box-shadow:0 1px 0 var(--line)}
+.both .q small{display:block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
+.both i{font-style:normal;color:var(--muted);font-size:20px}
+.both .res{font-size:clamp(20px,2vw,26px);letter-spacing:-.025em;line-height:1.15}
+.both .res b{font-weight:600}
+@media (max-width:860px){.both{grid-template-columns:minmax(0,1fr)}.both i{display:none}}
+.cats{display:grid;gap:10px;margin-top:32px}
+.cat-row{display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr) 30px;gap:14px;align-items:center;font-size:14.5px}
+.cat-row .track{height:10px;border-radius:99px;background:rgba(11,11,13,.07);overflow:hidden}
+.cat-row .track i{display:block;height:100%;background:var(--ink);border-radius:99px}
+.cat-row b{font-weight:500;text-align:right}
+@media (max-width:560px){.cat-row{grid-template-columns:minmax(0,1fr) 30px}.cat-row .track{grid-column:1/-1;order:3}}
+
+/* benchmark */
+.bench-head{padding-top:.95em;position:relative}
+.stole{position:relative;display:inline-block;color:var(--soft)}
+.stole > svg{position:absolute;left:-6%;top:30%;width:112%;height:46%;overflow:visible;pointer-events:none}
+.borrowed{position:absolute;left:58%;top:-1.05em;font-family:var(--f-hand);font-weight:700;color:var(--red);font-size:1.2em;letter-spacing:0;transform:rotate(-7deg);white-space:nowrap;line-height:1}
+.borrowed svg{position:absolute;left:-42px;top:50%;width:46px;height:46px;overflow:visible}
+.hand-note{font-family:var(--f-hand);font-weight:600;font-size:26px;color:var(--red);transform:rotate(-3deg);display:inline-block;margin-top:14px;margin-left:clamp(0px,30vw,420px)}
+.tablewrap{overflow-x:auto;margin-top:48px}
+table.data{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
+table.data th{font-family:var(--f-mono);font-weight:400;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0 14px 14px 0;border-bottom:1px solid var(--ink)}
+table.data td{padding:16px 14px 16px 0;border-bottom:1px solid var(--line);vertical-align:top}
+table.data td:first-child{font-size:17px;letter-spacing:-.015em}
+.yes{font-weight:500}.no{color:var(--red)}.partly{color:var(--muted)}
+
+/* sitemap */
+.maps{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:56px}
+.map{border-radius:26px;padding:28px}
+.map.before{border:1px solid var(--line)}
+.map.after{background:var(--deep);color:var(--cloud)}
+.map h3{font-weight:400;font-size:28px;letter-spacing:-.03em;margin:0 0 4px}
+.map .sub{font-size:14px;opacity:.7;margin-bottom:24px}
+.pages{display:grid;gap:10px}
+.pg{border-radius:14px;padding:12px 14px;background:rgba(11,11,13,.05)}
+.map.after .pg{background:rgba(242,244,245,.08)}
+.pg b{font-weight:500;font-size:15px;display:block;margin-bottom:6px}
+.pg ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.pg li{font-size:12.5px;border-radius:999px;padding:3px 10px;background:var(--cloud);color:var(--ink)}
+.pg li.bad{background:transparent;border:1px solid var(--red);color:#8f231f}
+.map.after .pg li{background:rgba(242,244,245,.14);color:var(--cloud)}
+.map.after .pg li.moved{background:#9fb3d9;color:var(--deep)}
+.pg.locked{opacity:.55}
+@media (max-width:820px){.maps{grid-template-columns:minmax(0,1fr)}}
+
+/* content */
+.bars{display:grid;gap:18px}
+.bar-row{display:grid;gap:8px}
+.bar-row .lab{display:flex;justify-content:space-between;gap:12px;font-size:17px;letter-spacing:-.015em}
+.bar-row .lab b{font-weight:500}
+.bar-row .track{height:12px;border-radius:99px;background:rgba(11,11,13,.08);overflow:hidden}
+.bar-row .track i{display:block;height:100%;border-radius:99px;background:var(--ink)}
+.bar-row.grey .track i{background:#9aa0b0}
+.bar-row.grey .lab{color:var(--muted)}
+blockquote{margin:44px 0 0;font-size:clamp(24px,2.6vw,34px);letter-spacing:-.03em;line-height:1.15;max-width:22ch}
+blockquote cite{display:block;font-style:normal;font-size:14px;color:var(--muted);margin-top:14px;letter-spacing:0;font-family:var(--f-mono)}
+.reviews-comp{margin-top:80px;border-radius:18px;overflow:hidden;box-shadow:0 40px 80px -44px rgba(20,24,34,.55)}
+.reviews-comp img{width:100%;height:auto}
+.comp-cap{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);margin-top:12px;letter-spacing:.06em}
+
+/* wireframe -> design */
+.wd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 20px;margin-top:56px}
+.wd .frame{border-radius:16px;overflow:hidden;aspect-ratio:1400/860;background:var(--cloud);box-shadow:0 30px 60px -40px rgba(20,24,34,.5)}
+.wd .frame img{width:100%;height:100%;object-fit:cover;object-position:left top}
+.wd figcaption{display:flex;align-items:baseline;gap:10px;margin-top:12px}
+.wd figcaption b{font-weight:700;font-size:14px;letter-spacing:-.01em}
+.wd figcaption span{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+@media (max-width:700px){.wd{grid-template-columns:minmax(0,1fr)}}
+
+/* design system */
+.concept{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:56px}
+.cc{border-radius:24px;padding:24px;min-height:320px;display:flex;flex-direction:column;gap:20px}
+.cc h3{font-weight:500;font-size:26px;letter-spacing:-.03em;margin:0}
+.cc p{font-size:14.5px;line-height:1.5;opacity:.82}
+.cc .demo{flex:1;display:grid;place-items:center;min-height:130px}
+.cc-bold{background:var(--ink);color:var(--cloud)}
+.cc-bold .demo{font-family:var(--f-brand);font-weight:700;font-size:clamp(72px,8vw,120px);line-height:.9;letter-spacing:-.02em}
+.cc-contrast{background:var(--cloud);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.cc-contrast .demo{grid-template-columns:1fr 1fr;width:100%;border-radius:14px;overflow:hidden;place-items:stretch}
+.cc-contrast .demo div{display:grid;place-items:center;font-size:30px;font-weight:600;letter-spacing:-.03em;padding:12px;text-align:center}
+.cc-contrast .demo div:first-child{background:var(--ink);color:var(--cloud)}
+.cc-contrast .demo div:last-child{background:#fff;color:var(--ink);font-size:12px;font-family:var(--f-mono);font-weight:400;letter-spacing:0}
+.cc-intuitive{background:var(--navy);color:var(--cloud)}
+.cc-intuitive .demo{gap:14px;justify-items:start;align-content:center}
+.fbtn{display:inline-flex;align-items:center;gap:10px;background:var(--cloud);color:var(--ink);border-radius:999px;padding:12px 20px;font-weight:600;font-size:15px}
+.fstep{display:flex;gap:6px}
+.fstep span{width:34px;height:6px;border-radius:9px;background:rgba(242,244,245,.25)}
+.fstep span.on{background:var(--cloud)}
+@media (max-width:860px){.concept{grid-template-columns:minmax(0,1fr)}}
+.swatches{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;margin-top:64px;align-items:start}
+.sw{border-radius:26px;padding:20px 20px 24px;min-height:300px;display:flex;flex-direction:column}
+.sw:nth-child(2){margin-top:110px}.sw:nth-child(3){margin-top:50px}.sw:nth-child(4){margin-top:140px}.sw:nth-child(5){margin-top:30px}.sw:nth-child(6){margin-top:90px}
+.sw .hex{font-family:var(--f-mono);font-size:11px;border:1px solid currentColor;border-radius:999px;padding:3px 12px;align-self:flex-start;opacity:.8}
+.sw h3{margin:auto 0 10px;font-weight:400;font-size:26px;letter-spacing:-.035em;line-height:1}
+.sw p{font-size:13px;line-height:1.45;opacity:.78}
+.sw code{font-family:var(--f-mono);font-size:11px;opacity:.7;display:block;margin-top:10px}
+.s-jet{background:#0b0b0d;color:#f2f4f5}.s-cloud{background:#f2f4f5;color:#0b0b0d}.s-charcoal{background:#1f2a37;color:#f2f4f5}.s-navy{background:#1a1f2b;color:#f2f4f5}.s-mist{background:#dae1f1;color:#0b0b0d;box-shadow:inset 0 0 0 1px rgba(11,11,13,.18)}.s-red{background:#c4302b;color:#fff}
+@media (max-width:1000px){.swatches{grid-template-columns:repeat(3,minmax(0,1fr))}.sw:nth-child(n){margin-top:0}}
+@media (max-width:520px){.swatches{grid-template-columns:repeat(2,minmax(0,1fr))}.sw{min-height:220px}}
+.typeword{font-family:var(--f-brand);font-weight:600;color:var(--ghost);font-size:clamp(84px,17vw,250px);line-height:.82;letter-spacing:-.04em;margin-top:48px;overflow-wrap:anywhere}
+.typescale{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;border-top:1px solid var(--line);margin-top:48px;padding-top:22px}
+.typescale b{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+.typescale span{font-size:14px;color:var(--muted)}
+@media (max-width:760px){.typescale{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:22px}}
+.specimen{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:40px}
+.specimen div{background:var(--cloud);border-radius:22px;padding:26px}
+.specimen .big{font-family:var(--f-brand);font-weight:600;font-size:clamp(40px,4.4vw,64px);line-height:1;letter-spacing:-.02em}
+.specimen .inter{font-family:"Inter","Inter Tight",Arial,sans-serif;font-size:18px;line-height:1.5}
+@media (max-width:700px){.specimen{grid-template-columns:minmax(0,1fr)}}
+.comps{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
+.comps span{border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:14.5px;background:rgba(242,244,245,.6)}
+.comps span b{font-weight:500}
+.comps span em{font-style:normal;color:var(--muted);font-size:12.5px;margin-left:6px;font-family:var(--f-mono)}
+
+/* chapters */
+.chapter{text-align:center}
+.chapter .h-xl{font-size:clamp(56px,10vw,150px)}
+.chapter .lead{margin-inline:auto}
+.talk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:56px;border-top:1px solid var(--line);padding-top:24px;text-align:left}
+.talk div b{display:block;font-weight:500;font-size:19px;letter-spacing:-.02em;margin-bottom:6px}
+.talk div p{font-size:15px;color:var(--muted)}
+@media (max-width:760px){.talk{grid-template-columns:minmax(0,1fr)}}
+
+/* booking */
+.steps4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:56px;align-items:start}
+.steps4 .shot{border-radius:10px;overflow:hidden;background:var(--cloud);box-shadow:0 24px 50px -34px rgba(20,24,34,.55)}
+.steps4 .shot.empty{aspect-ratio:1440/1500}
+.steps4 figcaption{margin-top:14px}
+.steps4 figcaption b{display:block;font-weight:500;font-size:18px;letter-spacing:-.02em}
+.steps4 figcaption span{font-size:14px;color:var(--muted)}
+.steps4 .n{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);letter-spacing:.1em;display:block}
+@media (max-width:900px){.steps4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.states2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:20px;align-items:start}
+.states2 .shot{border-radius:10px;overflow:hidden;box-shadow:0 24px 50px -34px rgba(20,24,34,.55)}
+.states2 .shot.empty{aspect-ratio:16/10}
+.states2 figcaption{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);letter-spacing:.06em;margin-top:12px;display:flex;gap:8px;align-items:center}
+.states2 figcaption svg{width:16px;height:16px;color:var(--red)}
+@media (max-width:700px){.states2{grid-template-columns:minmax(0,1fr)}}
+
+/* mobile, LuxFly-style loose screens */
+.mobiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2.4vw,32px);margin-top:72px;align-items:start;text-align:left}
+.mcol{display:flex;flex-direction:column;gap:clamp(14px,2.4vw,32px)}
+.mcol.side{margin-top:clamp(40px,7vw,100px)}
+.m-left{aspect-ratio:390/1420}
+.m-right{aspect-ratio:390/1250}
+.mshot{background:var(--cloud);overflow:hidden}
+.mshot img{width:100%;height:100%;object-fit:cover;object-position:top}
+.m-tall{aspect-ratio:390/1300}
+.m-mid{aspect-ratio:390/980}
+.m-menu{aspect-ratio:390/844}
+@media (max-width:640px){.mobiles{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.mcol.side{margin-top:0}.mcol.center{grid-column:1/-1;order:-1;width:70%;margin-inline:auto}}
+
+/* flows */
+.flows{list-style:none;padding:0;margin:0;display:grid;border-top:1px solid var(--line)}
+.flows li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:16px 0;border-bottom:1px solid var(--line);font-size:17px;letter-spacing:-.015em;align-items:center}
+.flows .fi{width:44px;height:44px;border-radius:12px;background:var(--ink);color:var(--cloud);display:grid;place-items:center}
+.flows .fi.alt{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.flows .fi svg{width:20px;height:20px}
+.flows small{display:block;color:var(--muted);font-size:13.5px;letter-spacing:0;margin-top:2px}
+
+/* critique + reflection columns */
+.refl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;margin-top:56px;padding-top:26px;border-top:1px solid currentColor}
+.refl h3{font-weight:400;font-size:clamp(28px,3vw,40px);letter-spacing:-.04em;margin:0 0 14px}
+.refl p{font-size:16px;opacity:.85}
+@media (max-width:860px){.refl{grid-template-columns:minmax(0,1fr);gap:30px}}
+.fix{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:14px;align-items:center;margin-top:14px}
+.fix div{background:var(--mist);border-radius:14px;padding:14px 16px;font-size:15px}
+.fix .was{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--red)}
+.fix i{font-style:normal;color:var(--muted)}
+
+/* handoff */
+.hsteps{display:grid;margin-top:40px}
+.hstep{position:relative;padding:clamp(48px,5vw,70px) 0 clamp(16px,2vw,24px);max-width:600px;isolation:isolate}
+.hstep:nth-child(2){margin-left:auto;margin-right:4%}
+.hstep:nth-child(3){margin-left:12%}
+.hstep:nth-child(4){margin-left:auto}
+.hstep:nth-child(5){margin-left:4%}
+.hstep .num{position:absolute;left:-.04em;top:-.1em;font-size:clamp(150px,18vw,260px);font-weight:600;letter-spacing:-.08em;line-height:1;color:var(--ink);opacity:.08;z-index:-1;user-select:none}
+.hstep h3{font-weight:400;font-size:clamp(28px,3vw,40px);letter-spacing:-.04em;margin:0 0 10px;padding-left:clamp(64px,8vw,120px)}
+.hstep p{font-size:16px;color:var(--muted);padding-left:clamp(64px,8vw,120px);max-width:48ch}
+@media (max-width:760px){.hstep:nth-child(n){margin-left:0;margin-right:0}}
+.board{position:relative;margin:clamp(70px,9vw,130px) auto 0;max-width:720px}
+.board .shot{border-radius:14px;overflow:hidden;box-shadow:0 40px 80px -44px rgba(20,24,34,.55)}
+.tagnote{position:absolute;z-index:2;width:250px;background:var(--deep);color:var(--cloud);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.4;box-shadow:0 20px 40px -24px rgba(20,24,34,.6)}
+.tagnote span{display:block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin-bottom:6px}
+.tagnote.lt{background:var(--cloud);color:var(--ink)}
+.tagnote.t1{left:-230px;top:6%;transform:rotate(-3deg)}
+.tagnote.t2{right:-240px;top:18%;transform:rotate(2.5deg)}
+.tagnote.t3{left:-250px;top:44%;transform:rotate(2deg)}
+.tagnote.t4{right:-230px;top:54%;transform:rotate(-2deg)}
+.tagnote.t5{left:-170px;bottom:2%;transform:rotate(-1.5deg)}
+.tagnote.t6{right:-180px;bottom:-4%;transform:rotate(3deg)}
+@media (max-width:1280px){.board{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}.board .shot{grid-column:1/-1}.tagnote{position:static;width:auto;transform:none}}
+@media (max-width:560px){.board{grid-template-columns:minmax(0,1fr)}}
+.specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;margin-top:clamp(80px,9vw,130px);border-top:1px solid var(--line);padding-top:26px}
+.specs h3{font-weight:500;font-size:20px;letter-spacing:-.02em;margin:0 0 12px}
+.specs ul{margin:0;padding-left:18px;color:var(--muted);font-size:15px;display:grid;gap:8px}
+@media (max-width:860px){.specs{grid-template-columns:minmax(0,1fr);gap:28px}}
+
+/* reflection (dark) */
+.dark .eyebrow{color:#aab2c6}
+.dark .soft{color:#8a93a8}
+.dark .lead{color:#c3c9d6}
+.emo{font-size:44px;line-height:1;display:block;margin-bottom:14px}
+.views{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:64px}
+.views > div{background:rgba(242,244,245,.06);border:1px solid rgba(242,244,245,.12);border-radius:24px;padding:26px 28px 30px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center}
+.views .face{font-size:64px;line-height:1}
+.views .q{font-size:clamp(19px,1.9vw,25px);letter-spacing:-.025em;line-height:1.25}
+@media (max-width:760px){.views{grid-template-columns:minmax(0,1fr)}}
+.pcs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:24px}
+.pc{border-radius:20px;padding:22px;background:rgba(242,244,245,.06);border:1px solid rgba(242,244,245,.12);display:flex;flex-direction:column;gap:14px}
+.pc > svg{width:34px;height:34px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{font-size:13px;border-radius:999px;padding:4px 11px}
+.chips.plus span{background:var(--cloud);color:var(--ink)}
+.chips.minus span{border:1px solid rgba(242,244,245,.35);color:#c3c9d6}
+.chips span::before{font-family:var(--f-mono);margin-right:5px}
+.chips.plus span::before{content:"+"}
+.chips.minus span::before{content:"−"}
+@media (max-width:900px){.pcs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.pcs{grid-template-columns:minmax(0,1fr)}}
+
+/* end */
+.end{text-align:center;overflow:hidden;padding-bottom:0}
+.end .h-m{max-width:16ch;margin:0 auto}
+.endrow{display:flex;justify-content:space-between;gap:16px;font-size:13px;color:var(--muted);margin-top:48px;flex-wrap:wrap}
+.end .giant{font-weight:300;letter-spacing:-.07em;line-height:.74;color:var(--ghost);font-size:clamp(130px,30vw,470px);margin-top:40px;white-space:nowrap;user-select:none}
+.toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:40px}
+.toc a{text-decoration:none;font-size:13px;border:1px solid var(--line);border-radius:999px;padding:6px 14px;color:var(--muted)}
+.toc a:hover{background:var(--ink);color:var(--cloud);border-color:var(--ink)}
+</style>
+
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="wheel" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="20" cy="20" r="3" fill="currentColor"/><g stroke="currentColor" stroke-width="1.2"><path d="M20 3v34M3 20h34M8 8l24 24M32 8L8 32"/></g></symbol>
+<symbol id="i-notion" viewBox="0 0 24 24"><g fill="currentColor"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"></path></g></symbol>
+<symbol id="i-figma" viewBox="0 0 24 24"><g fill="currentColor"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"></path></g></symbol>
+<symbol id="i-slack" viewBox="0 0 448 512"><g fill="currentColor"><path d="M94.12 315.1c0 25.9-21.16 47.06-47.06 47.06S0 341 0 315.1c0-25.9 21.16-47.06 47.06-47.06h47.06v47.06zm23.72 0c0-25.9 21.16-47.06 47.06-47.06s47.06 21.16 47.06 47.06v117.84c0 25.9-21.16 47.06-47.06 47.06s-47.06-21.16-47.06-47.06V315.1zm47.06-188.98c-25.9 0-47.06-21.16-47.06-47.06S139 32 164.9 32s47.06 21.16 47.06 47.06v47.06H164.9zm0 23.72c25.9 0 47.06 21.16 47.06 47.06s-21.16 47.06-47.06 47.06H47.06C21.16 243.96 0 222.8 0 196.9s21.16-47.06 47.06-47.06H164.9zm188.98 47.06c0-25.9 21.16-47.06 47.06-47.06 25.9 0 47.06 21.16 47.06 47.06s-21.16 47.06-47.06 47.06h-47.06V196.9zm-23.72 0c0 25.9-21.16 47.06-47.06 47.06-25.9 0-47.06-21.16-47.06-47.06V79.06c0-25.9 21.16-47.06 47.06-47.06 25.9 0 47.06 21.16 47.06 47.06V196.9zM283.1 385.88c25.9 0 47.06 21.16 47.06 47.06 0 25.9-21.16 47.06-47.06 47.06-25.9 0-47.06-21.16-47.06-47.06v-47.06h47.06zm0-23.72c-25.9 0-47.06-21.16-47.06-47.06 0-25.9 21.16-47.06 47.06-47.06h117.84c25.9 0 47.06 21.16 47.06 47.06 0 25.9-21.16 47.06-47.06 47.06H283.1z"></path></g></symbol>
+<symbol id="i-claude" viewBox="0 0 24 24"><g fill="currentColor"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"></path></g></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></g></symbol>
+<symbol id="i-wrench" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></g></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path><path d="M16 18h.01"></path></g></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></g></symbol>
+<symbol id="i-ban" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="m14 14-4 4"></path><path d="m10 14 4 4"></path></g></symbol>
+<symbol id="i-form" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h1a3 3 0 0 1 3 3 3 3 0 0 1 3-3h1"></path><path d="M13 20h-1a3 3 0 0 1-3-3 3 3 0 0 1-3 3H5"></path><path d="M5 16H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h1"></path><path d="M13 8h7a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-7"></path><path d="M9 7v10"></path></g></symbol>
+</svg>
+
+<script>
+function slotErr(img){var fb=img.getAttribute('data-fb');if(fb&&img.getAttribute('src')!==fb){img.parentNode.classList.add('fallback');img.src=fb;}else{img.parentNode.classList.add('empty');}}
+</script>
+
+<header class="wrap topbar">
+  <div class="brand"><svg aria-hidden="true"><use href="#wheel"/></svg>Fraserview<span>Redesign</span></div>
+  <nav><span class="hide-s">Case study · Product · UX/UI</span><a class="pill" href="#booking">Booking flow</a></nav>
+</header>
+
+<!-- 1 HERO -->
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Website redesign · Fraserview Bike Shop, Vancouver · 2026</p>
+    <h1 class="h-xl"><span class="soft">Expert bike care,</span><br>booked in four steps.</h1>
+    <p class="lead">A one-mechanic bike shop in Vancouver had a site that looked good but never led to a booking. We rebuilt it so every page ends in a booked drop-off.</p>
+    <div class="hero-stage">
+      <div class="ghostword" aria-hidden="true">fraserview</div>
+      <div class="glass c1"><b>5.0 ★</b>226 Google reviews</div>
+      <div class="glass c2"><b>$120</b>Standard tune</div>
+      <div class="glass c3"><b>Step 2 of 4</b>Date and time</div>
+      <div class="glass c4"><b>20+ years</b>Jeff at the bench</div>
+      <div class="laptop">
+        <div class="lid"><div class="screen fit slot" data-label="Home / Desktop"><img src="img/home_d.jpg" alt="Redesigned Fraserview home page on desktop" onerror="slotErr(this)"></div></div>
+        <div class="base"></div>
+      </div>
+    </div>
+    <nav class="toc" aria-label="Sections">
+      <a href="#about">Overview</a><a href="#process">Process</a><a href="#research">Evaluate</a><a href="#sitemap">Sitemap</a><a href="#system">Design system</a><a href="#home">Home</a><a href="#services">Services</a><a href="#booking">Booking</a><a href="#critique">Critique</a><a href="#handoff">Handoff</a><a href="#outcome">Outcome</a><a href="#reflection">Reflection</a>
+    </nav>
+  </div>
+</section>
+
+<!-- 2 OVERVIEW -->
+<section class="statement" id="about">
+  <div class="wrap">
+    <p class="eyebrow">Overview</p>
+    <p class="h-l"><span class="soft">Fraserview Bike Shop is one mechanic, Jeff, with 20+ years at the bench.</span> His old website showed prices but gave riders no clear way to book. In nine days, a developer and I turned six pages into three that all end in a booking.</p>
+    <dl class="facts">
+      <div><dt>My role</dt><dd>Design system, Home, Header, Footer<br>Critique and handoff lead</dd></div>
+      <div><dt>Team</dt><dd>Tak, developer<br>YJ, designer</dd></div>
+      <div><dt>Timeline</dt><dd class="tnum">9 days · October 2026</dd></div>
+      <div><dt>Outcome</dt><dd>6 pages → 3<br>A Book button on every page</dd></div>
+    </dl>
+    <p class="lead" style="max-width:none;text-align:center;margin-inline:auto">How we worked: Notion for decisions, Figma for critique and handoff, live sessions for everything else.</p>
+  </div>
+</section>
+
+<!-- 3 PROBLEM -->
+<section class="white">
+  <div class="wrap split">
+    <div>
+      <svg class="mark" aria-hidden="true"><use href="#wheel"/></svg>
+      <p class="eyebrow">The problem</p>
+      <h2 class="h-m"><span class="soft">A nice-looking site</span> that doesn’t lead to a booking.</h2>
+      <ul class="issues">
+        <li><span>01</span><div>No headline, no button<small>The home hero is a photo with no text and no next step.</small></div></li>
+        <li><span>02</span><div>Prices, but no way to book<small>Four tune packages on Service &amp; Rates, none with a Book button.</small></div></li>
+        <li><span>03</span><div>Calendar hidden below a photo<small>Book a Service opens on a hero image and asks for 6 required fields.</small></div></li>
+      </ul>
+    </div>
+    <div class="before3">
+      <figure><div class="shot slot light" data-label="Before · Home"><img src="img/before_home.jpg" alt="Old Home: a workshop photo with no headline or button" onerror="slotErr(this)"></div><figcaption>01 · HOME</figcaption></figure>
+      <figure><div class="shot slot light" data-label="Before · Service &amp; Rates"><img src="img/before_services.jpg" alt="Old Service and Rates: tune packages with no Book button" onerror="slotErr(this)"></div><figcaption>02 · SERVICE &amp; RATES</figcaption></figure>
+      <figure><div class="shot slot light" data-label="Before · Book a Service"><img src="img/before_booking.jpg" alt="Old Book a Service: the calendar is pushed below a photo" onerror="slotErr(this)"></div><figcaption>03 · BOOK A SERVICE</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 4 GOAL -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Our goal</p>
+    <h2 class="h-l"><span class="soft">One goal:</span><br>more service bookings.</h2>
+    <p class="lead">To book, a visitor needs to do three things. Every page we designed supports one of them.</p>
+    <div class="tasks3">
+      <div class="task"><img src="img/photo_bikes.jpg" alt="" onerror="slotErr(this)"><span class="n">Task 1</span><p>Check the shop is right for my bike</p><span class="where">Services · bikes we service</span></div>
+      <div class="task"><img src="img/photo_workbench.jpg" data-fb="img/before_home.jpg" alt="" onerror="slotErr(this)"><span class="n">Task 2</span><p>Book a drop-off</p><span class="where">Book a Service · 4 steps</span></div>
+      <div class="task"><img src="img/photo_shop.jpg" data-fb="img/before_booking.jpg" alt="" onerror="slotErr(this)"><span class="n">Task 3</span><p>Find and contact the shop</p><span class="where">Home · location · footer</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 PROCESS -->
+<section class="band" id="process">
+  <div class="wrap">
+    <p class="eyebrow">Process</p>
+    <h2 class="h-m"><span class="soft">One road,</span> split by page, merged for critique.</h2>
+    <div class="route">
+      <svg viewBox="0 0 1200 360" role="img" aria-label="Process route: Evaluate and Synthesize together, then the road splits into YJ's lane (Home, Header, Footer) and Tak's lane (Services, Booking) for Wireframe and Design, then merges for Critique and Handoff.">
+        <g fill="none" stroke="#0b0b0d" stroke-width="6" stroke-linecap="round">
+          <path d="M40 180 H400"/>
+          <path d="M400 180 C 460 180, 460 90, 520 90 H 820 C 880 90, 880 180, 940 180"/>
+          <path d="M400 180 C 460 180, 460 270, 520 270 H 820 C 880 270, 880 180, 940 180" stroke-dasharray="1 12"/>
+          <path d="M940 180 H1150"/>
+        </g>
+        <g fill="#0b0b0d">
+          <circle cx="110" cy="180" r="16"/><circle cx="310" cy="180" r="16"/>
+          <circle cx="1010" cy="180" r="16"/><circle cx="1150" cy="180" r="22"/>
+        </g>
+        <g fill="#cdd5e8" stroke="#0b0b0d" stroke-width="5">
+          <circle cx="580" cy="90" r="14"/><circle cx="760" cy="90" r="14"/>
+          <circle cx="580" cy="270" r="14"/><circle cx="760" cy="270" r="14"/>
+        </g>
+        <path d="M1141 181 l6 6 l11 -13" fill="none" stroke="#f2f4f5" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text class="lbl" x="110" y="145" text-anchor="middle">Evaluate</text><text class="dt" x="110" y="228" text-anchor="middle">OCT 2</text>
+        <text class="lbl" x="310" y="145" text-anchor="middle">Synthesize</text><text class="dt" x="310" y="228" text-anchor="middle">OCT 5</text>
+        <text class="lane" x="670" y="146" text-anchor="middle">YJ · HOME, HEADER, FOOTER</text>
+        <text class="lbl" x="580" y="64" text-anchor="middle">Wireframe</text><text class="lbl" x="760" y="64" text-anchor="middle">Design</text>
+        <text class="lane" x="670" y="226" text-anchor="middle">TAK · SERVICES, BOOKING</text>
+        <text class="lbl" x="580" y="312" text-anchor="middle">Wireframe</text><text class="lbl" x="760" y="312" text-anchor="middle">Design</text>
+        <text class="dt" x="670" y="186" text-anchor="middle">OCT 6 → OCT 7</text>
+        <text class="lbl" x="1010" y="145" text-anchor="middle">Critique</text><text class="dt" x="1010" y="228" text-anchor="middle">OCT 7–8</text>
+        <text class="lbl" x="1150" y="140" text-anchor="middle">Handoff</text><text class="dt" x="1150" y="234" text-anchor="middle">OCT 8</text>
+      </svg>
+    </div>
+    <div class="legend"><span><i></i>Together</span><span><i class="solo"></i>Split by page, each on our own lane</span></div>
+  </div>
+</section>
+
+<!-- 8 EVALUATE -->
+<section class="white" id="research">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <p class="eyebrow">Evaluate · Nielsen’s 10 heuristics</p>
+        <div class="bignum tnum">31<small>findings</small></div>
+      </div>
+      <div>
+        <p class="lead" style="margin-top:0">We each audited the current site alone, then compared. Tak logged 14 findings and YJ 17, each tagged with a heuristic as a Figma annotation.</p>
+        <div class="cats tnum">
+          <div class="cat-row"><span>8 · Aesthetic and minimalist</span><div class="track"><i style="width:100%"></i></div><b>18</b></div>
+          <div class="cat-row"><span>4 · Consistency and standards</span><div class="track"><i style="width:27.8%"></i></div><b>5</b></div>
+          <div class="cat-row"><span>7 · Flexibility and efficiency</span><div class="track"><i style="width:11.1%"></i></div><b>2</b></div>
+          <div class="cat-row"><span>10 · Help and documentation</span><div class="track"><i style="width:11.1%"></i></div><b>2</b></div>
+          <div class="cat-row"><span>1, 5, 6, 9 · one each</span><div class="track"><i style="width:22.2%"></i></div><b>4</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="heur">
+      <figure class="hframe">
+        <div class="shot slot light" data-label="Heuristic Evaluation (Tak) · Home"><img src="img/heur_tak.jpg" alt="Tak's heuristic evaluation of the old Home page" onerror="slotErr(this)"></div>
+        <div class="ann l" style="top:10%"><span class="cat">7. Flexibility and efficiency</span><br>The primary button is just a link.</div>
+        <div class="ann r" style="top:36%"><span class="cat">4. Consistency and standards</span><br>“Contact Us” is the only heading on this page. Each section needs one.</div>
+        <div class="ann l" style="top:64%"><span class="cat">5. Error prevention</span><br>Users only notice errors after pressing Confirm. (Book a Service)</div>
+        <figcaption><b>Tak</b>14 findings</figcaption>
+      </figure>
+      <figure class="hframe">
+        <div class="shot slot light" data-label="Heuristic Evaluation (YJ) · Home"><img src="img/heur_yj.jpg" alt="YJ's heuristic evaluation of the old Home page" onerror="slotErr(this)"></div>
+        <div class="ann r" style="top:6%"><span class="cat">1. Visibility of system status</span><br>The current page should be bold so users know where they are.</div>
+        <div class="ann l" style="top:32%"><span class="cat">7. Flexibility and efficiency</span><br>CTA needed.</div>
+        <div class="ann r" style="top:60%"><span class="cat">8. Aesthetic and minimalist</span><br>Price should be more emphasized. (Service &amp; Rates)</div>
+        <figcaption><b>YJ</b>17 findings</figcaption>
+      </figure>
+    </div>
+    <div class="both">
+      <div class="q"><small>TAK</small>“The primary button is just a link.”</div><i>+</i>
+      <div class="q"><small>YJ</small>“CTA needed.”</div><i>=</i>
+      <p class="res">The one we both found became the first thing on Home: a <b>Book a drop-off</b> button.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9 BENCHMARK -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Benchmark · 17 candidates → 7 sites</p>
+    <h2 class="h-m bench-head">We <span class="stole">stole<svg viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M4 26 C 40 14, 80 30, 120 18 S 180 12, 196 20" fill="none" stroke="#c4302b" stroke-width="5" stroke-linecap="round"/><path d="M8 18 C 60 28, 110 8, 192 26" fill="none" stroke="#c4302b" stroke-width="3.5" stroke-linecap="round"/></svg><span class="borrowed">borrowed<svg viewBox="0 0 46 46" aria-hidden="true"><path d="M44 6 C 28 10, 14 20, 8 40" fill="none" stroke="#c4302b" stroke-width="3" stroke-linecap="round"/><path d="M3 30 L8 41 L17 35" fill="none" stroke="#c4302b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span> what 7 sites do well.</h2>
+    <span class="hand-note">(only the good parts, promise)</span>
+    <div class="tablewrap">
+      <table class="data">
+        <thead><tr><th>Feature</th><th>Before</th><th>After</th><th>Where in our site</th></tr></thead>
+        <tbody>
+          <tr><td>Headline + Book button on the first screen</td><td class="no">No</td><td class="yes">Yes</td><td>Home hero</td></tr>
+          <tr><td>Book button in the header</td><td class="partly">Partly</td><td class="yes">Yes</td><td>Header, every page</td></tr>
+          <tr><td>Book button next to prices</td><td class="no">No</td><td class="yes">Yes</td><td>Services cards → Step 1</td></tr>
+          <tr><td>Rating or reviews on Home</td><td class="no">No</td><td class="yes">Yes</td><td>Home: Reviews</td></tr>
+          <tr><td>Address shown</td><td class="partly">Partly</td><td class="yes">Yes</td><td>Footer + Home: Location</td></tr>
+          <tr><td>Prices listed</td><td>Yes</td><td>Kept</td><td>Services</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:13.5px;color:var(--muted);margin-top:14px">3 bike shops, 3 other industries, 1 local rival. Visual references: LuxFly, AirLumeAi, Dolanan, Moveo (Behance) and Green Spoke.</p>
+  </div>
+</section>
+
+<!-- 10 SITEMAP -->
+<section class="band" id="sitemap">
+  <div class="wrap">
+    <p class="eyebrow">Information architecture</p>
+    <h2 class="h-l"><span class="soft">6 pages</span> became 3.</h2>
+    <p class="lead">Every page now leads to Book a Service. Content from Order and Reviews moved into Home and Services; the locked Lake City page was removed.</p>
+    <div class="maps">
+      <div class="map before">
+        <h3>Before</h3><p class="sub">fraserviewbikes.ca · no clear path to booking</p>
+        <div class="pages">
+          <div class="pg"><b>Home</b><ul><li class="bad">Hero photo, no text or button</li><li>3 features</li><li>Meet Jeff</li><li>Contact + map</li></ul></div>
+          <div class="pg"><b>Service &amp; Rates</b><ul><li>Hero photo</li><li class="bad">4 tune packages, no Book button</li><li>Single services</li></ul></div>
+          <div class="pg"><b>Book a Service</b><ul><li class="bad">Hero photo pushes calendar down</li><li>Calendar</li><li class="bad">Form with 6 required fields</li></ul></div>
+          <div class="pg"><b>Order</b><ul><li class="bad">Brand logos, one image, no text</li><li>Email link</li></ul></div>
+          <div class="pg"><b>Reviews</b><ul><li class="bad">5.0 rating only shown here</li></ul></div>
+          <div class="pg locked"><b>Lake City</b><ul><li>Password page, locked</li></ul></div>
+        </div>
+      </div>
+      <div class="map after">
+        <h3>After</h3><p class="sub">3 pages that all lead to booking</p>
+        <div class="pages">
+          <div class="pg"><b>Home</b><ul><li>Hero + Book button</li><li class="moved">Reviews · from Reviews</li><li>Meet Jeff</li><li>Tune-up packages</li><li>How it works</li><li>Location</li></ul></div>
+          <div class="pg"><b>Services</b><ul><li>Bikes we service</li><li>Tune-up packages</li><li>Single repairs</li><li class="moved">Parts · from Order</li></ul></div>
+          <div class="pg"><b>Book a Service</b><ul><li>1 · Service</li><li>2 · Date and time</li><li>3 · Your details</li><li>4 · Confirmed</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 CONTENT -->
+<section>
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">Content · 159 Google reviews</p>
+      <h2 class="h-m"><span class="soft">159 reviews</span> chose our message.</h2>
+      <p class="lead">We counted which themes riders mention most. The top one became the Home headline and a How it works step: Jeff does the work himself.</p>
+      <blockquote>“Jeff will only recommend what is necessary.”<cite>Victor Z. · Google review</cite></blockquote>
+    </div>
+    <div>
+      <div class="bars tnum">
+        <div class="bar-row"><div class="lab"><span>Jeff checks your bike himself</span><b>106</b></div><div class="track"><i style="width:100%"></i></div></div>
+        <div class="bar-row grey"><div class="lab"><span>Fair price</span><b>74</b></div><div class="track"><i style="width:69.8%"></i></div></div>
+        <div class="bar-row"><div class="lab"><span>You always know the progress</span><b>57</b></div><div class="track"><i style="width:53.8%"></i></div></div>
+        <div class="bar-row"><div class="lab"><span>Only what your bike needs</span><b>40</b></div><div class="track"><i style="width:37.7%"></i></div></div>
+      </div>
+      <p style="font-size:13.5px;color:var(--muted);margin-top:14px">Reviews mentioning each theme. Grey: competitors say it too, so it is not a headline.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <figure>
+      <div class="reviews-comp slot" data-label="Home · Reviews carousel component"><img src="img/reviews.png" alt="Our Reviews carousel component from the Home page" onerror="slotErr(this)"></div>
+      <figcaption class="comp-cap">OUR REVIEWS CAROUSEL · HOME · TESTIMONIAL CARD + CAROUSEL ARROWS</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 12 WIREFRAME -> DESIGN -->
+<section class="white">
+  <div class="wrap">
+    <p class="eyebrow">Wireframe → design</p>
+    <h2 class="h-m"><span class="soft">Grey boxes and real copy first,</span> then colour, type and photos.</h2>
+    <p class="lead">We agreed on content and order in wireframes before any visual work, so the split by page stayed consistent.</p>
+    <div class="wd">
+      <figure><div class="frame slot light" data-label="Wireframe · Home hero"><img src="img/wf_home.png" alt="Home hero wireframe" onerror="slotErr(this)"></div><figcaption><b>YJ</b><span>Wireframe · Home hero</span></figcaption></figure>
+      <figure><div class="frame slot" data-label="Design · Home hero"><img src="img/home_d.jpg" alt="Home hero final design" onerror="slotErr(this)"></div><figcaption><b>YJ</b><span>Design · Home hero</span></figcaption></figure>
+      <figure><div class="frame slot light" data-label="Wireframe · Tune-up packages"><img src="img/wf_svc_tune.png" alt="Services tune-up section wireframe" onerror="slotErr(this)"></div><figcaption><b>Tak</b><span>Wireframe · Tune-up packages</span></figcaption></figure>
+      <figure><div class="frame slot" data-label="Design · Tune-up packages"><img src="img/svc_tune.png" alt="Services tune-up section final design" onerror="slotErr(this)"></div><figcaption><b>Tak</b><span>Design · Tune-up packages</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 13 DESIGN SYSTEM -->
+<section class="band" id="system">
+  <div class="wrap">
+    <p class="eyebrow">Design concept</p>
+    <h2 class="h-l"><span class="soft">Built like</span><br>a workshop.</h2>
+    <p class="lead">A mechanic’s world is loud, practical and honest. Tools are labelled, prices are on the wall, and nothing is decoration. The system speaks the same way.</p>
+    <div class="concept">
+      <div class="cc cc-bold"><h3>Bold</h3><div class="demo" aria-hidden="true">Aa</div><p>A heavy display face for headlines and prices. You can read it from across the shop.</p></div>
+      <div class="cc cc-contrast"><h3>High contrast</h3><div class="demo tnum" aria-hidden="true"><div>17.8:1</div><div>Jet Black<br>on Cloud White</div></div><p>Black on near-white, with grey kept for secondary text. Every text style passes 4.5:1.</p></div>
+      <div class="cc cc-intuitive"><h3>Intuitive</h3><div class="demo" aria-hidden="true"><span class="fbtn">Book a drop-off →</span><span class="fstep"><span class="on"></span><span class="on"></span><span></span><span></span></span></div><p>One primary action per screen, plain labels and a numbered stepper. Nothing to learn.</p></div>
+    </div>
+
+    <div class="split" style="margin-top:clamp(90px,10vw,140px)">
+      <div></div>
+      <div>
+        <svg class="mark" aria-hidden="true"><use href="#wheel"/></svg>
+        <h2 class="h-l">Color<br>System</h2>
+        <p class="lead">One set of colour variables for both of us. Screens use the semantic tokens (background, text, action, border), never the primitives directly.</p>
+      </div>
+    </div>
+    <div class="swatches">
+      <div class="sw s-jet"><span class="hex">#0B0B0D</span><h3>Jet Black</h3><p>Primary buttons, headlines and the footer.</p><code>action/primary</code></div>
+      <div class="sw s-cloud"><span class="hex">#F2F4F5</span><h3>Cloud White</h3><p>Cards and light surfaces, softer than pure white.</p><code>surface/light</code></div>
+      <div class="sw s-charcoal"><span class="hex">#1F2A37</span><h3>Charcoal Blue Gray</h3><p>Dark sections with depth.</p><code>surface/dark</code></div>
+      <div class="sw s-navy"><span class="hex">#1A1F2B</span><h3>Deep Navy</h3><p>Hero overlay and the booking summary.</p><code>background/dark</code></div>
+      <div class="sw s-mist"><span class="hex">#DAE1F1</span><h3>Mist Blue</h3><p>Page background with a cool, calm tone.</p><code>background/soft</code></div>
+      <div class="sw s-red"><span class="hex">#C4302B</span><h3>Signal Red</h3><p>Errors only, such as an invalid email.</p><code>feedback/error</code></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <svg class="mark" aria-hidden="true"><use href="#wheel"/></svg>
+    <h2 class="h-l">Typography<br>System</h2>
+    <p class="lead">A sturdy display face for headlines and prices, Inter for everything you read. 21 text styles, all under Typography/*.</p>
+    <div class="typeword" aria-hidden="true">anek gurmukhi</div>
+    <div class="specimen">
+      <div><p class="eyebrow">Display · Anek Gurmukhi SemiBold</p><p class="big">Your bike. Our care.</p></div>
+      <div><p class="eyebrow">Body · Inter Regular</p><p class="inter">Personalized tune-ups, repairs and honest advice from a mechanic with 20+ years of experience.</p></div>
+    </div>
+    <div class="typescale tnum">
+      <div><b>Display XXL</b><span>96px</span></div><div><b>Display XL</b><span>72px</span></div><div><b>H1</b><span>Inter Bold 44</span></div>
+      <div><b>Price</b><span>Inter Bold 42</span></div><div><b>Body</b><span>Inter 16</span></div><div><b>Caption</b><span>Inter 12</span></div>
+    </div>
+    <p class="eyebrow" style="margin-top:80px">Components · Design System page</p>
+    <div class="comps">
+      <span><b>Header</b><em>Global</em></span><span><b>Footer</b><em>Global</em></span><span><b>Button</b><em>Dark · Light · Outline</em></span>
+      <span><b>Tune Card</b><em>4 tiers</em></span><span><b>Bike Tile</b></span><span><b>Price Row</b></span><span><b>Logo Marquee</b></span>
+      <span><b>Testimonial Card</b></span><span><b>Process Step</b></span><span><b>Stepper</b></span><span><b>Radio Option</b><em>Default · Selected</em></span>
+      <span><b>Calendar Day</b><em>4 states</em></span><span><b>Time Slot</b><em>3 states</em></span><span><b>Text Field</b><em>Empty · Filled · Valid · Error</em></span>
+      <span><b>Summary Panel</b></span><span><b>Ticket</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- 14 HOME -->
+<section class="band chapter" id="home">
+  <div class="wrap">
+    <p class="eyebrow">YJ · Home</p>
+    <h2 class="h-xl"><span class="soft">Landing</span><br>Page</h2>
+    <p class="lead">Book from the first screen. The final Home mixes the strongest options from critique: Hero A, Packages A and Location A.</p>
+    <div class="browser" style="margin-top:64px">
+      <div class="bar"><i></i><i></i><i></i><span>fraserviewbikes.ca</span></div>
+      <div class="screen scroll slot" data-label="Home / Desktop (full page, scrolls)"><img src="img/home_d.jpg" alt="Full Home page: hero, reviews, Meet Jeff, tune packages, how it works, location" onerror="slotErr(this)"></div>
+    </div>
+    <div class="talk">
+      <div><b>Headline + Book button</b><p>“Expert bike care, right in your neighbourhood.” with Book a drop-off and 5.0 from 226 reviews under it.</p></div>
+      <div><b>Reviews on Home</b><p>The 5.0 rating used to live on its own page. Now it backs up the first screen.</p></div>
+      <div><b>How it works in 4 steps</b><p>Book a time, drop off, Jeff services it, pick up and ride.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 SERVICES -->
+<section id="services">
+  <div class="wrap">
+    <div class="split rev" style="align-items:center">
+      <div class="laptop"><div class="lid"><div class="screen scroll slot" data-label="Services / Desktop"><img src="img/svc_d.jpg" alt="Services page on desktop" onerror="slotErr(this)"></div></div><div class="base"></div></div>
+      <div>
+        <p class="eyebrow">Tak · Services</p>
+        <h2 class="h-m"><span class="soft">See the price,</span><br>then book it.</h2>
+        <p class="lead">Four tune-ups from $80 to $320, each with its own Book button. The package you pick is already selected in Step 1.</p>
+        <ul class="issues" style="margin-top:28px">
+          <li><span style="color:var(--ink)">→</span><div>Bikes we service, and the ones we don’t<small>E-bikes, BMX and fat-tire bikes are named before booking.</small></div></li>
+          <li><span style="color:var(--ink)">→</span><div>Single repairs grouped by part<small>Labour-only prices; parts cost extra.</small></div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="tilt-wrap" style="margin-top:40px">
+      <div class="tilt"><div class="phone"><div class="screen scroll slot" data-label="Services / Mobile"><img src="img/svc_m.jpg" alt="Services page on mobile" onerror="slotErr(this)"></div></div></div>
+      <div class="contact" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 BOOKING -->
+<section class="white" id="booking">
+  <div class="wrap">
+    <div class="chapter">
+      <p class="eyebrow">Tak · Book a Service</p>
+      <h2 class="h-xl"><span class="soft">Four</span><br>steps</h2>
+      <p class="lead">Before: date, time, then 6 required fields under a hero photo. After: one decision per step, with a booking summary that is always visible.</p>
+    </div>
+    <div class="steps4">
+      <figure><div class="shot slot" data-label="Step 1 · Service"><img src="img/b1.png" alt="Booking step 1, choose a service" onerror="slotErr(this)"></div><figcaption><span class="n">STEP 1</span><b>Service</b><span>Package carried over from Services.</span></figcaption></figure>
+      <figure><div class="shot slot" data-label="Step 2 · Date and time"><img src="img/b2.png" alt="Booking step 2, pick a date and time" onerror="slotErr(this)"></div><figcaption><span class="n">STEP 2</span><b>Date and time</b><span>Weekday evenings, every 15 min.</span></figcaption></figure>
+      <figure><div class="shot slot" data-label="Step 3 · Your details"><img src="img/b3.png" alt="Booking step 3, enter your details" onerror="slotErr(this)"></div><figcaption><span class="n">STEP 3</span><b>Your details</b><span>All required except Notes.</span></figcaption></figure>
+      <figure><div class="shot slot" data-label="Step 4 · Confirmed"><img src="img/b4.png" alt="Booking step 4, confirmation ticket" onerror="slotErr(this)"></div><figcaption><span class="n">STEP 4</span><b>Confirmed</b><span>A ticket with drop-off time and address.</span></figcaption></figure>
+    </div>
+    <p class="eyebrow" style="margin-top:96px">Empty and error states</p>
+    <div class="states2">
+      <figure><div class="shot slot" data-label="Step 2 · Fully booked day"><img src="img/full.png" alt="A fully booked day with a link to the next free day" onerror="slotErr(this)"></div><figcaption><svg aria-hidden="true"><use href="#i-ban"/></svg>STEP 2 · FULLY BOOKED DAY</figcaption></figure>
+      <figure><div class="shot slot" data-label="Step 3 · Invalid fields"><img src="img/err.png" alt="Step 3 with inline error messages" onerror="slotErr(this)"></div><figcaption><svg aria-hidden="true"><use href="#i-alert"/></svg>STEP 3 · INVALID FIELDS</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 17 MOBILE -->
+<section class="chapter">
+  <div class="wrap">
+    <h2 class="h-xl"><span class="soft">Mobile</span><br>390</h2>
+    <p class="lead">Below 768px the booking summary becomes a bar at the top, and tune-up cards stack to one column.</p>
+    <div class="mobiles">
+      <div class="mcol side">
+        <div class="mshot m-left slot light" data-label="Services / Mobile"><img src="img/svc_m.jpg" alt="Services on mobile" onerror="slotErr(this)"></div>
+      </div>
+      <div class="mcol center">
+        <div class="mshot m-tall slot light" data-label="Home / Mobile"><img src="img/home_m.jpg" alt="Home on mobile" onerror="slotErr(this)"></div>
+        <div class="mshot m-menu slot hide-empty" data-label="Menu / Mobile"><img src="img/menu_m.png" alt="Mobile menu" onerror="slotErr(this)"></div>
+      </div>
+      <div class="mcol side">
+        <div class="mshot m-right slot light" data-label="Booking / Step 2 / Mobile"><img src="img/b2_m.png" alt="Booking step 2 on mobile" onerror="slotErr(this)"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 PROTOTYPE FLOWS -->
+<section class="band">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">Prototype</p>
+      <h2 class="h-m"><span class="soft">Six named flows,</span> each with a starting point.</h2>
+      <p class="lead">Demo live in Figma: Services → click Book on a tune-up card → the four booking steps.</p>
+    </div>
+    <ul class="flows">
+      <li><span class="fi"><svg aria-hidden="true"><use href="#i-home"/></svg></span><div>Home → Booking · Desktop<small>Starts at Home / Desktop</small></div></li>
+      <li><span class="fi"><svg aria-hidden="true"><use href="#i-home"/></svg></span><div>Home → Booking · Mobile<small>Starts at Home / Mobile</small></div></li>
+      <li><span class="fi"><svg aria-hidden="true"><use href="#i-wrench"/></svg></span><div>Services → Booking · Desktop<small>Starts at Services / Desktop</small></div></li>
+      <li><span class="fi"><svg aria-hidden="true"><use href="#i-wrench"/></svg></span><div>Services → Booking · Mobile<small>Starts at Services / Mobile</small></div></li>
+      <li><span class="fi alt"><svg aria-hidden="true"><use href="#i-cal"/></svg></span><div>Booking states · Nothing selected → Fully booked day<small>Starts at Step 1, nothing selected</small></div></li>
+      <li><span class="fi alt"><svg aria-hidden="true"><use href="#i-alert"/></svg></span><div>Booking states · Invalid fields<small>Starts at Step 3, invalid fields</small></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 19 CRITIQUE -->
+<section class="white" id="critique">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">Critique · Oct 7–8 · Figma comments</p>
+      <h2 class="h-m"><span class="soft">Small changes,</span> real facts.</h2>
+      <p class="lead">We left feedback on each other’s frames with Figma comments. The layouts held up, so the second round was about two things: balance and truth.</p>
+    </div>
+    <div class="refl" style="grid-template-columns:minmax(0,1fr);margin-top:0;gap:34px;border-top:0;padding-top:0">
+      <div><h3>Type balance</h3><p>The contrast between headline and body sizes was too strong. We brought the sizes closer so the text reads as one voice.</p></div>
+      <div><h3>Real copy, not placeholder</h3><p>Temporary body copy from the mockup stage was replaced with facts from the shop’s real data: review count, rating, address and drop-off times.</p>
+        <div class="fix tnum"><div class="was">4.7 from 21,000 reviews</div><i>→</i><div>5.0 from 226 reviews</div></div>
+      </div>
+      <div><h3>Home: the best of each option</h3><p>We compared hero, package and location options and kept one of each: Hero A, Packages A, Location A.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 20 HANDOFF -->
+<section id="handoff" style="overflow:hidden">
+  <div class="wrap">
+    <p class="eyebrow">Handoff</p>
+    <h2 class="h-l"><span class="soft">Ready for</span><br>developers.</h2>
+    <p class="lead">Five things we checked before handing over. The developer would build with AI tools, so we also checked that every note comes through Figma MCP.</p>
+    <div class="hsteps">
+      <div class="hstep"><span class="num" aria-hidden="true">01</span><h3>Clear names</h3><p>Page / Step / Size, e.g. Booking / Step 2 Date and time / Mobile. No default layer names.</p></div>
+      <div class="hstep"><span class="num" aria-hidden="true">02</span><h3>Key flows prototyped</h3><p>Six named flows: Home and Services on desktop and mobile, plus the empty and error states.</p></div>
+      <div class="hstep"><span class="num" aria-hidden="true">03</span><h3>Starting points</h3><p>Each flow starts at Home, Services, or its own state screen.</p></div>
+      <div class="hstep"><span class="num" aria-hidden="true">04</span><h3>Styles, components, variables</h3><p>Every colour is a variable, every text has a style. Selected, Fully booked and Error are component variants.</p></div>
+      <div class="hstep"><span class="num" aria-hidden="true">05</span><h3>Notes for developers</h3><p>17 Dev Mode annotations, tagged Interaction, Form, Business rule, Responsive and Accessibility.</p></div>
+    </div>
+    <div class="board">
+      <div class="shot slot light" data-label="Handoff · Component states"><img src="img/states.png" alt="Handoff section showing every component state" onerror="slotErr(this)"></div>
+      <div class="tagnote t1"><span>Interaction · Back</span>Going back keeps all choices and typed values.</div>
+      <div class="tagnote lt t2"><span>Business rule · Calendar</span>Weekday evenings, every 15 minutes, 6:30–9:45 pm. Past days and weekends are unavailable.</div>
+      <div class="tagnote lt t3"><span>Form · Email</span>On Confirm, focus moves to the first error: “Enter an email like name@example.com.”</div>
+      <div class="tagnote t4"><span>Interaction · Confirm</span>While sending, show “Booking…” and disable the button. If the time was just taken, go back to Step 2.</div>
+      <div class="tagnote t5"><span>Responsive · Header</span>Hide “Book Now” in the header during Steps 1–3.</div>
+      <div class="tagnote lt t6"><span>Accessibility · Marquee</span>Pauses on hover or focus. With reduced motion, a static grid.</div>
+    </div>
+    <div class="specs">
+      <div><h3>Breakpoints</h3><ul><li>Designed at 1440 and 390.</li><li>Below 768px: mobile layout.</li><li>Tune cards: 1 column, 2×2 from 768px, 4 in a row from 1200px.</li></ul></div>
+      <div><h3>Accessibility</h3><ul><li>Text meets 4.5:1; input borders 3:1.</li><li>Alt text on photos; duplicate marquee logos are aria-hidden.</li><li>Keyboard support for radios, calendar and stepper.</li></ul></div>
+      <div><h3>Open questions</h3><ul><li>Keep YouCanBookMe or build our own booking backend?</li><li>Who sends the confirmation email?</li><li>Postal code differs between the site and Google.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 22 OUTCOME -->
+<section class="white" id="outcome">
+  <div class="wrap">
+    <p class="eyebrow">Outcome · measured against the audit</p>
+    <h2 class="h-l"><span class="soft">Every page</span> now ends in a booking.</h2>
+    <p class="lead">The shop has not launched the new site yet, so there are no live numbers. These measure the design against the problems we found.</p>
+    <dl class="facts">
+      <div><dt>Pages</dt><dd><b class="tnum">6 → 3</b>every one leads to Book a Service</dd></div>
+      <div><dt>Book button</dt><dd><b class="tnum">0 → every page</b>hero, header and next to each price</dd></div>
+      <div><dt>Benchmark gaps</dt><dd><b class="tnum">5 of 5 closed</b>headline, header button, price button, reviews, address</dd></div>
+      <div><dt>Booking</dt><dd><b class="tnum">1 form → 4 steps</b>one decision per step, summary always visible</dd></div>
+    </dl>
+    <dl class="facts" style="margin-top:0;border-top:0">
+      <div><dt>Heuristic findings</dt><dd class="tnum">31 logged, 18 on aesthetic and minimalist</dd></div>
+      <div><dt>Design system</dt><dd class="tnum">6 colour tokens · 21 text styles · 14 components</dd></div>
+      <div><dt>Prototype</dt><dd class="tnum">6 named flows, desktop and mobile</dd></div>
+      <div><dt>Handoff</dt><dd class="tnum">17 Dev Mode notes, 5 categories</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- 23 REFLECTION -->
+<section class="dark" id="reflection">
+  <div class="wrap">
+    <p class="eyebrow">Looking back</p>
+    <h2 class="h-l"><span class="soft">I came in as a brand designer.</span> I left putting the experience before the look.</h2>
+    <p class="lead">Different starting points: I put beauty first, Tak worked from facts and data. There was no product manager between us, so user experience became the shared goal and the bridge.</p>
+    <div class="refl">
+      <div><h3>What worked</h3><p>Agreeing on content and order in wireframes before any visual work. The split by page stayed consistent, and critique was about balance and truth, not layout.</p></div>
+      <div><h3>What I would change</h3><p>We did not run user testing. Next time I would test the current site with real riders before wireframing, and let their words set the headline instead of the reviews alone.</p></div>
+      <div><h3>What I took with me</h3><p>Designing for the developer as well as the user: named layers, variables for every colour, and notes for the behaviour you cannot see on screen.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 23 END -->
+<section class="end">
+  <div class="wrap">
+    <svg class="mark" aria-hidden="true" style="margin-inline:auto"><use href="#wheel"/></svg>
+    <p class="h-m">Designed with purpose.<br><span class="soft">Built for bookings.</span></p>
+    <div class="endrow"><span>Team project with Tak, developer</span><a href="../../index.html">← Back to portfolio</a><span class="tnum">October 2026</span></div>
+  </div>
+  <div class="giant" aria-hidden="true">fraserview</div>
+</section>
+
+</body></html>
+</body></html>
