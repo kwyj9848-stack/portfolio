@@ -3,14 +3,190 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Yujeong Kwon — Designer</title>
-  <style>
-    :root { --bg: #fff; --fg: #111; }
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--fg); font-family: system-ui, sans-serif; padding: 16px; }
-    p { font-size: 1.25rem; max-width: 36ch; text-align: center; }
-  </style>
+  <title>Yujeong Kwon — Designer, Vancouver</title>
+  <meta name="description" content="Designer working across brand, marketing, and product. Based in Vancouver.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <p>Designer working across brand, marketing, and product. Based in Vancouver. — Site in progress.</p>
+
+<header class="wrap top">
+  <a class="name" href="#top">Yujeong Kwon</a>
+  <nav aria-label="Sections">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="wrap hero" id="top">
+  <h1 class="h-xl">Designer working across brand, marketing, and product.</h1>
+  <p class="sub"><span>Based in Vancouver.</span><a href="#about">Same method, different rooms → How these connect</a></p>
+
+  <!-- The crate. Six covers; off-centre tilt comes in step 2. -->
+  <div class="crate" aria-label="Selected work">
+    <a class="card" href="#w-creodent">
+      <div class="cover cv-creo"><span>CreoDent</span></div>
+      <div class="cap"><b>CreoDent</b><span>Brand</span></div>
+    </a>
+    <a class="card" href="work/fraserview/">
+      <div class="cover"><img src="work/fraserview/img/home_d.jpg" alt="Fraserview Bike Shop home page"><span>Fraserview</span></div>
+      <div class="cap"><b>Fraserview</b><span>Product</span></div>
+    </a>
+    <a class="card" href="#w-bca">
+      <div class="cover cv-bca"><span>BCA</span></div>
+      <div class="cap"><b>BCA</b><span>In progress</span></div>
+    </a>
+    <a class="card" href="#about">
+      <div class="cover cv-star"><span>Starlight Studio</span></div>
+      <div class="cap"><b>Starlight Studio</b><span>Marketing</span></div>
+    </a>
+    <a class="card" href="#about">
+      <div class="cover cv-loom"><span>LineLoomArt</span></div>
+      <div class="cap"><b>LineLoomArt</b><span>Maker</span></div>
+    </a>
+    <a class="card" href="#about">
+      <div class="cover cv-me"><span>Yujeong</span></div>
+      <div class="cap"><b>Yujeong</b><span>About</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="wrap work" id="work">
+  <p class="label">Work</p>
+  <ol>
+    <li id="w-creodent">
+      <span class="n">01</span>
+      <div>
+        <h3><a href="#w-creodent">CreoDent</a></h3>
+        <p class="tagline">A year in-house. Then they called me back.</p>
+      </div>
+      <p class="desc">Ads, social, video, trade shows, eShop photography and two internal tools for a New York dental lab, across three sub-brands that could not look alike. The templates are still in use; I've been their freelance designer since.</p>
+      <div class="meta">
+        <div class="tags"><span>Brand</span><span>Marketing</span><span>Product</span></div>
+        <span class="year">2024 – now</span>
+      </div>
+    </li>
+    <li id="w-fraserview">
+      <span class="n">02</span>
+      <div>
+        <h3><a href="work/fraserview/">Fraserview Bike Shop</a></h3>
+        <p class="tagline">Expert bike care, booked in four steps.</p>
+      </div>
+      <p class="desc">Six pages became three that all end in a booking. Design system, Home and developer handoff, in nine days with a developer.</p>
+      <div class="meta">
+        <div class="tags"><span>Product</span></div>
+        <span class="year">2026</span>
+      </div>
+    </li>
+    <li id="w-bca">
+      <span class="n">03</span>
+      <div>
+        <h3><a href="#w-bca">BCA · Brazilian Community Association of BC</a></h3>
+        <p class="tagline">A bilingual community site that feels like a neighbour, not an office.</p>
+      </div>
+      <p class="desc">Mid-fi, shared design system and PT/EN build for a team of four. Opens December.</p>
+      <div class="meta">
+        <div class="tags"><span>Product</span><span class="soft">In progress</span></div>
+        <span class="year">2026</span>
+      </div>
+    </li>
+    <!-- 04 Amigo · coming December
+    <li id="w-amigo">
+      <span class="n">04</span>
+      <div>
+        <h3><a href="#w-amigo">Amigo</a></h3>
+        <p class="tagline">Over-the-counter medicine, explained for newcomers.</p>
+      </div>
+      <p class="desc">When you are sick in a new country, the pharmacy is a wall of words. A search app for immigrants and students.</p>
+      <div class="meta">
+        <div class="tags"><span>Product</span></div>
+        <span class="year">2026</span>
+      </div>
+    </li>
+    -->
+  </ol>
+  <p class="more muted">More: Starlight Studio, LineLoomArt, SMC Korea, Ugly So Lovely — in the Playground, coming soon.</p>
+</section>
+
+<!-- ABOUT -->
+<section class="wrap about" id="about">
+  <p class="label">About · How these connect</p>
+  <div class="grid">
+    <div>
+      <p class="lead">I observe people. I understand the context. I turn an idea into something you can see. Then I make it real — on a screen, on paper, or in a room.</p>
+      <p class="lead">That is the whole method. Only the rooms change: a dental lab in New York, a bike shop in Vancouver, an art academy in Korea, a nail bar downtown. Each one taught me a different way to see the person on the other side.</p>
+    </div>
+    <div>
+      <p class="label">Beyond the screen</p>
+      <ul class="beyond">
+        <li><b>Nail bar</b><span>One client at a time, millimetre detail, feedback in seconds.</span></li>
+        <li><b>Teaching · art, adult English</b><span>Designing how people understand.</span></li>
+        <li><b>Marketing lead · art academy</b><span>Content that has to answer to numbers.</span></li>
+        <li><b>Etsy shop</b><span>Product, listing, launch and support, alone.</span></li>
+        <li><b>Trade shows</b><span>Booth flow, dwell time, what people actually pick up.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="wrap xp" id="experience">
+  <p class="label">Experience</p>
+  <div class="rows">
+    <div class="row">
+      <time>Now</time>
+      <div><b>CreoDent</b> Freelance designer · 2026 –</div>
+      <div>Brochures and launch materials for new product lines.</div>
+    </div>
+    <div class="row">
+      <time>Now</time>
+      <div><b>Starlight Studio</b> SNS lead · 2026 –</div>
+      <div>Monthly plan, posts and captions for an art academy in Korea, remote.</div>
+    </div>
+    <div class="row">
+      <time>Now</time>
+      <div><b>LineLoomArt</b> Founder · 2026 –</div>
+      <div>Editable Canva wedding websites on Etsy: product, listing, launch, support.</div>
+    </div>
+    <div class="row">
+      <time>2024.08 – 2025.08</time>
+      <div><b>CreoDent, New York</b> Graphic Designer, Marketing</div>
+      <div>In-house 2D designer for three sub-brands: 14 magazine ads, 8 videos, 4 trade shows, eShop product photography, two internal tools. Templates still in use; working with them freelance since 2026.</div>
+    </div>
+    <div class="row">
+      <time>2023.01 – 2023.06</time>
+      <div><b>SMC Korea</b> SNS Content Designer</div>
+      <div>Card news, short-form and posters for six public institutions; pitch samples that helped win contracts.</div>
+    </div>
+  </div>
+  <div class="stats">
+    <div><b>4</b><span>Trade shows</span></div>
+    <div><b>3</b><span>Countries</span></div>
+    <div><b>6</b><span>Public-sector clients</span></div>
+  </div>
+  <p class="edu">CICCC, UX/UI Design (2026) · Hanyang University ERICA. Awards: Mediheal top prize, KSDS Outstanding Graduation Work, Design Cloud Top 100.</p>
+</section>
+
+<!-- CONTACT -->
+<section class="wrap contact" id="contact">
+  <p class="label">Contact</p>
+  <h2 class="h-l">Open to digital, brand and product design roles in Vancouver — contract or full-time.</h2>
+  <div class="links">
+    <a href="mailto:kwyj9848@gmail.com">Email</a>
+    <a href="#" aria-disabled="true">LinkedIn</a>
+    <a href="#" aria-disabled="true">Resume (PDF)</a>
+  </div>
+</section>
+
+<footer class="wrap">
+  <span>Yujeong Kwon · Vancouver, BC</span>
+  <span>Built by hand with HTML and CSS, 2026</span>
+</footer>
+
 </body>
 </html>
