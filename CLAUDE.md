@@ -1,20 +1,57 @@
 # 포트폴리오 PM 노트: 권유정 (Yujeong Kwon)
 
-> 이 파일은 Claude Code가 매 세션 시작할 때 읽는 **PM 노트**입니다. 업데이트: 2026-11-17 (세션 3 종료)
+> 이 파일은 Claude Code가 매 세션 시작할 때 읽는 **PM 노트**입니다. 업데이트: 2026-11-17 (세션 3 종료, 최종)
 
 ---
 
 ## ▶ 다음 세션 시작점 (여기부터 읽기)
 
-**업데이트: 2026-11-17 밤 (세션 3 종료)**
+**업데이트: 2026-11-17 (세션 3 종료). 세션 4부터는 `portfolio` 저장소만 붙여서 시작한다.**
 
-1. **v0 뼈대 공개됨.** `index.html` + `style.css`, 순수 HTML/CSS. 주소 `https://kwyj9848-stack.github.io/portfolio/`. Hero 카드 회전(LP 넘기기, CSS scroll-driven animation)까지 완료. 작업 미리보기는 `archive/*.png`.
-2. **Fraserview 케이스 완료:** `work/fraserview/`. 원본 PT는 `archive/fraserview-pt-original.html`.
-3. **다음에 할 것 (순서):** ① 실제 이미지 3장 넣기 (CreoDent 커버, 본인 사진, BCA 스크린샷은 Claude가 `CICCC_FNL_PJ/bca-home.html`에서 촬영) ② 사용자 비주얼 레퍼런스 받으면 폰트·여백 톤 조정 (`:root` 변수만) ③ LinkedIn 주소·레주메 PDF 연결 ④ CreoDent 상세 페이지 (`work/creodent/`) ⑤ 레주메 Brand 버전 글 ⑥ Amigo 재구성 지시서
-4. **사용자에게 받을 것:** LinkedIn 주소, CreoDent 커버 이미지 1장, 본인 사진 1장, 브로슈어 종수·플라이어 대략, 현재 레주메 텍스트, Amigo 기존 자료.
-5. 출국 11/21. 11/20이 여유일. 밀리면 PDF 전환.
+### 지금 상태
+- **사이트 v0 공개됨:** `https://kwyj9848-stack.github.io/portfolio/` (`index.html` + `style.css`, 순수 HTML/CSS, JS 없음)
+- Hero 카드 회전(LP 넘기기) 완료. CSS scroll-driven animation(`animation-timeline: view(inline)`), 미지원 브라우저·동작 줄이기에선 정적.
+- 카드 6장 중 실제 이미지: **Fraserview** (`work/fraserview/img/home_d.jpg`), **BCA** (`img/bca-home.jpg`). 나머지 4장(CreoDent, Starlight, LineLoomArt, About)은 색 블록 플레이스홀더.
+- **Fraserview 케이스 완료:** `work/fraserview/index.html`. 원본 PT는 `archive/fraserview-pt-original.html`.
+- 바디카피 v1 확정, `index.html`에 반영됨. 카피를 바꿀 때는 `index.html`이 기준이다.
+- Hero 비주얼 레퍼런스 이미지: `archive/refs/hero-ref-cosmos-crate.jpg` (다크 원본. 우리는 순백+검정)
+
+### 다음에 할 것 (순서)
+1. **카드 이미지 4장:** CreoDent 표지(잡지 광고나 브로슈어 커버), 본인 사진(About 카드), Starlight·LineLoomArt는 10/27 덱 아티팩트에서 가져온다 (`claude.ai/artifact/HWQ69xrravfgNiT4eSxu8R`, 파일 `img/star_ig5175.jpg`, `img/ll_sq3.jpg`. Artifact 도구 `read` + `paths`로 내려받기)
+2. **비주얼 레퍼런스** 받으면 폰트·여백 톤 조정 (`style.css`의 `:root` 변수만)
+3. **LinkedIn 주소·레주메 PDF** 연결 (`index.html` Contact의 `href="#"` 두 개)
+4. **CreoDent 상세 페이지** `work/creodent/` (아래 "CreoDent 재료" 참고)
+5. 레주메 Brand 버전 글 → 6. Amigo 재구성 지시서
+
+### 사용자에게 받을 것
+LinkedIn 주소 / CreoDent 표지 1장 / 본인 사진 1장 / 비주얼 레퍼런스 3~5개 / 브로슈어 종수·플라이어 대략 / 현재 레주메 텍스트 / Amigo 기존 자료
+
+### 일하는 방식 메모 (세션 3에서 사용자가 요청)
+- **CLAUDE.md는 세션 끝에 한 번만 업데이트한다. 중간에 일일이 고치지 않는다.**
+- **토큰을 아낀다.** 스크린샷·렌더링은 꼭 필요할 때만. 판단·글은 길게, 반복 작업은 짧게.
+- 만들기 전에 먼저 묻는다. "만들지 말고 셋업부터"라고 하면 대화로만.
+- 출국 11/21. 11/20이 여유일. 밀리면 PDF 전환.
 > 대화는 한국어로, 포트폴리오·레주메 결과물은 영어로 만듭니다.
-> **CLAUDE.md는 세션 끝에 한 번만 업데이트한다. 중간에 일일이 고치지 않는다.** (사용자 요청, 11/16)
+
+### 세션 3에서 다른 에이전트(ChatGPT) 의견을 검토한 결론
+- 가져온 것: About의 4문장 구조(observe / understand context / translate visually / bring to life), "Beyond the screen" 표.
+- 거절한 것: "Multidisciplinary Designer" 타이틀, 세 서브브랜드 BI를 히어로에 쓰기(BI는 회사 것), 7섹션 구조, Roomeo 1순위, Figma 하이파이 먼저. 이유는 §1 "컨셉 메시지" 참고.
+
+---
+
+## CreoDent 재료 (세션 3에서 확인한 사실)
+
+- **기간:** 인하우스 2024.08–2025.08 (뉴욕), 프리랜서 2026–현재 (INOSS 브로슈어 등)
+- **세 서브브랜드:** Orion / Inosys(INOSS) / Creo. 분위기와 BI가 다 다르다. BI는 회사 것이고 사용자는 적용물을 만들었다. "하루에 세 브랜드를 오가며 이전 브랜드의 습관을 지우고 새로 시작했다"가 사용자의 실제 경험.
+- **BI 브로슈어:** 브랜드 초기 설립·확장용. **Orion, INOSS는 직접 작업**, Creo는 커버 시안만.
+- **숫자:** 영상 8편(사내행사 2, SNS 5, 행사 스케치 1, 촬영·편집 모두), 전시 **4회**(GNYDM + LMT East 2024, LMT Chicago 2025, LMT West 2025), 잡지 광고 14(LMT 10, Dentaltown 4), 이메일 블라스트(비정기, 횟수 모름 → "ad-hoc email campaigns"), 플라이어 있음. COTD 시리즈는 엎어짐(쓰지 않음).
+- **eShop 상품 이미지:** 직접 촬영 → 보정 → 편집 전부. eCommerce 직무에 강한 카드.
+- **내부 툴 2개 (Product 태그의 근거):**
+  1. **사내 물품 주문 웹사이트:** 지점(허드슨밸리, 뉴욕)마다 유니폼·종이컵·패키지 박스·티슈 등을 매번 Slack으로 담당자에게 요청하던 것을 온라인 쇼핑처럼 주문하게 만든 내부 사이트. HR을 돕기 위해.
+  2. **웰컴 인터랙션 스크린:** 로비에서 거래처·손님이 회사의 부서, 하는 일, 메인 가치를 보는 인터랙티브 화면. 전시회에서도 사용. 기기는 LG StanbyME.
+  → 둘 다 화면 디자인이 별로라 **스크린샷 대신 "문제 → 만든 것 → 쓰인 곳" 흐름도**로 보여준다.
+- **파일 위치 (사용자 Mac):** iCloud `Desktop/Desktop - 권유정의 MacBook Pro/Creodent`. 한글 경로는 NFD라 복사해 붙이면 안 열린다. `find "$HOME/Library/Mobile Documents/com~apple~CloudDocs" -maxdepth 3 -type d -iname "*creodent*"`로 찾는다. 주요 폴더: SNS/Video, Advertisement/Magazine, Show/(전시 4개), eShop/, Brochure/, Seminar/, Goods/, Interior/Monitor, For Confirmation(시안→컨펌 과정 증거). 파일 수는 소스 포함이라 제작물 수가 아니다.
+- **상세 페이지 블록 순서:** ① SNS·영상·이메일 ② 전시 ③ eShop ④ 세미나 자료 ⑤ 브랜드 환경 + 내부 툴 ⑥ 인쇄(잡지·BI 브로슈어·플라이어). 첫 화면에 "Three brands, one desk".
 
 ---
 
@@ -27,7 +64,7 @@
 - 디자인 설명은 실무자 수준으로, **코드·AI 설명은 쉬운 말로, Figma에 비유해서** 한다.
 - 사용자는 **공부가 목적**이다. 코드를 짜면 무엇을 했는지 짧게 설명하고, 사용자가 **직접 고쳐볼 한 가지**를 제안한다.
 - 파일을 정리할 때는 **절대 원본을 이동하거나 삭제하지 않는다. 복사만 한다.**
-- 이 저장소는 포트폴리오 전용이다. 팀 프로젝트(BCA)는 `CICCC_FNL_PJ` 저장소에 있고, 그쪽 `CLAUDE.md`는 건드리지 않는다.
+- 이 저장소는 포트폴리오 전용이다. 팀 프로젝트(BCA)는 `kwyj9848-stack/CICCC_FNL_PJ` 저장소에 있고, 그쪽 `CLAUDE.md`는 건드리지 않는다. BCA 자료가 필요할 때만 `add_repo`로 붙여서 **읽기만** 한다 (`bca-home.html`을 Playwright로 1440×1920, 7초 대기 후 촬영하면 히어로 제목까지 나온다).
 
 ---
 
@@ -101,7 +138,7 @@
 
 | 기간 | 할 일 |
 |---|---|
-| **지금 ~ 출국 전** | ① ✅ Claude 앱 설치 ② CreoDent 파일을 `creodent-raw/`에 복사로 모으기 ③ ✅ GitHub 저장소 (Pages 켜기는 남음) ④ CreoDent 케이스 글과 페이지 ⑤ About + 레주메 ⑥ 사이트 공개 + 첫 지원 5~10건 + 에이전시 등록 |
+| **지금 ~ 출국 전** | ① ✅ Claude 앱 설치 ② CreoDent 파일 고르기 (블록당 2~3장) ③ ✅ GitHub 저장소 + Pages ④ CreoDent 케이스 글과 페이지 ⑤ About + 레주메 ⑥ 사이트 공개 + 첫 지원 5~10건 + 에이전시 등록 |
 | 한국 방문 (11월 말~12월 중순) | 가벼운 공부, BCA 완성본, 학교 과제 1건, 커피챗 메시지 보내기 |
 | 12~1월 | 학교 과제 1건 더, (선택) 네일 AI 프로토타입. 커피챗 주 2~3건 |
 | 1~2월 | v2 공개, Product 포지션까지 지원 확대, 면접 |
@@ -113,9 +150,9 @@
 
 | 날짜 | 공부·제작 | 콘텐츠 |
 |---|---|---|
-| 11/16 | ✅ Claude 앱, `portfolio` 폴더, ✅ GitHub 저장소 + 빈 페이지 | **포트폴리오 흐름 잡기** (진행 중) |
-| 11/17 | GitHub Pages 켜기 확인, 페이지 뼈대 (HTML) | CreoDent 파일 모으기, 대표 작품 8~12개 고르기, 숫자 적기 |
-| 11/18 | 뼈대 마무리 | 케이스 글: Claude가 질문 → 사용자가 한국어로 답 → Claude가 영어 초안 |
+| 11/16 | ✅ Claude 앱, `portfolio` 폴더, ✅ GitHub 저장소 + 빈 페이지 | ✅ 흐름 확정, ✅ Fraserview 포폴 버전 |
+| 11/17 | ✅ 페이지 뼈대 + 카드 회전 + BCA 카드 | ✅ 바디카피 v1, CreoDent 숫자 정리 |
+| 11/18 | 카드 이미지 4장, 레퍼런스 반영(폰트·여백) | CreoDent 상세 페이지 글 + 이미지 고르기 |
 | 11/19 | 색·폰트·여백 (CSS 변수), 모바일 확인 | 레주메 Brand 버전 |
 | 11/20 | 최종 점검 → **공개** | 첫 지원 3~5건 또는 에이전시 등록. 짐 싸기 |
 
@@ -130,7 +167,8 @@
 - [x] GitHub Pages 켜기
 - [x] 포트폴리오 흐름 잡기 → 구조·컨셉·바디카피 v1 확정 (index.html에 반영됨)
 - [x] 학교 과제 → Fraserview, Amigo 채택
-- [ ] 실제 이미지 3장 (CreoDent 커버, 본인 사진, BCA 스크린샷)
+- [x] BCA 스크린샷 → 카드 (`img/bca-home.jpg`)
+- [ ] 카드 이미지: CreoDent 표지, 본인 사진, Starlight, LineLoomArt
 - [ ] LinkedIn 주소, 레주메 PDF 연결
 - [ ] 비주얼 레퍼런스 받기 → 폰트·여백 조정
 - [ ] CreoDent 상세 페이지
