@@ -17,14 +17,17 @@
 - Hero 비주얼 레퍼런스 이미지: `archive/refs/hero-ref-cosmos-crate.jpg` (다크 원본. 우리는 순백+검정)
 
 ### 다음에 할 것 (순서)
-1. **카드 이미지 4장:** CreoDent 표지(잡지 광고나 브로슈어 커버), 본인 사진(About 카드), Starlight·LineLoomArt는 10/27 덱 아티팩트에서 가져온다 (`claude.ai/artifact/HWQ69xrravfgNiT4eSxu8R`, 파일 `img/star_ig5175.jpg`, `img/ll_sq3.jpg`. Artifact 도구 `read` + `paths`로 내려받기)
+1. **히어로/랜딩 페이지 전체 틀 잡기 (세션 4 목표).** 이미지는 **전부 목업(플레이스홀더)**으로 둔다. 실제 사진은 사용자가 나중에 정리해서 넣는다 → 지금은 이미지 채우기를 하지 않는다. 기존 Fraserview·BCA 이미지도 틀 잡는 동안엔 목업으로 바꿔도 된다 (파일은 지우지 않는다).
+   - 볼 것: 레이아웃 그리드, 섹션 간 리듬(여백), 타이포 위계, 카드 줄(LP 넘기기)의 크기·위치, 모바일 첫 화면, 내비게이션
+   - 목업은 카드마다 다른 색 블록 + 라벨(예: "CreoDent · cover 3:4")로 비율과 자리가 보이게
 2. **비주얼 레퍼런스** 받으면 폰트·여백 톤 조정 (`style.css`의 `:root` 변수만)
-3. **LinkedIn 주소·레주메 PDF** 연결 (`index.html` Contact의 `href="#"` 두 개)
-4. **CreoDent 상세 페이지** `work/creodent/` (아래 "CreoDent 재료" 참고)
+3. LinkedIn 주소·레주메 PDF 연결 (`index.html` Contact의 `href="#"` 두 개)
+4. CreoDent 상세 페이지 `work/creodent/` (아래 "CreoDent 재료" 참고)
 5. 레주메 Brand 버전 글 → 6. Amigo 재구성 지시서
+7. (나중) 실제 이미지 넣기: 사용자가 정리한 사진. Starlight·LineLoomArt는 10/27 덱 아티팩트(`claude.ai/artifact/HWQ69xrravfgNiT4eSxu8R`, `img/star_ig5175.jpg`, `img/ll_sq3.jpg`)에서도 가져올 수 있다
 
 ### 사용자에게 받을 것
-LinkedIn 주소 / CreoDent 표지 1장 / 본인 사진 1장 / 비주얼 레퍼런스 3~5개 / 브로슈어 종수·플라이어 대략 / 현재 레주메 텍스트 / Amigo 기존 자료
+비주얼 레퍼런스 3~5개 / LinkedIn 주소 / (나중) 정리한 사진들 / 브로슈어 종수·플라이어 대략 / 현재 레주메 텍스트 / Amigo 기존 자료
 
 ### 일하는 방식 메모 (세션 3에서 사용자가 요청)
 - **CLAUDE.md는 세션 끝에 한 번만 업데이트한다. 중간에 일일이 고치지 않는다.**
@@ -152,7 +155,7 @@ LinkedIn 주소 / CreoDent 표지 1장 / 본인 사진 1장 / 비주얼 레퍼�
 |---|---|---|
 | 11/16 | ✅ Claude 앱, `portfolio` 폴더, ✅ GitHub 저장소 + 빈 페이지 | ✅ 흐름 확정, ✅ Fraserview 포폴 버전 |
 | 11/17 | ✅ 페이지 뼈대 + 카드 회전 + BCA 카드 | ✅ 바디카피 v1, CreoDent 숫자 정리 |
-| 11/18 | 카드 이미지 4장, 레퍼런스 반영(폰트·여백) | CreoDent 상세 페이지 글 + 이미지 고르기 |
+| 11/18 | **히어로/랜딩 전체 틀 (목업)**, 레퍼런스 반영 | CreoDent 상세 페이지 글 |
 | 11/19 | 색·폰트·여백 (CSS 변수), 모바일 확인 | 레주메 Brand 버전 |
 | 11/20 | 최종 점검 → **공개** | 첫 지원 3~5건 또는 에이전시 등록. 짐 싸기 |
 
@@ -168,7 +171,8 @@ LinkedIn 주소 / CreoDent 표지 1장 / 본인 사진 1장 / 비주얼 레퍼�
 - [x] 포트폴리오 흐름 잡기 → 구조·컨셉·바디카피 v1 확정 (index.html에 반영됨)
 - [x] 학교 과제 → Fraserview, Amigo 채택
 - [x] BCA 스크린샷 → 카드 (`img/bca-home.jpg`)
-- [ ] 카드 이미지: CreoDent 표지, 본인 사진, Starlight, LineLoomArt
+- [ ] 히어로/랜딩 전체 틀 (이미지는 목업)
+- [ ] (나중) 실제 사진 넣기
 - [ ] LinkedIn 주소, 레주메 PDF 연결
 - [ ] 비주얼 레퍼런스 받기 → 폰트·여백 조정
 - [ ] CreoDent 상세 페이지
