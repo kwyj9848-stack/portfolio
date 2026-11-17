@@ -86,20 +86,45 @@ p { margin: 0; }
 /* the record crate: a horizontal, snapping row of covers.
    Step 2 will tilt the off-centre covers with rotateY. */
 .crate {
-  display: flex; gap: 16px;
+  display: flex; gap: 0;
   margin-top: clamp(40px, 6vw, 72px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--gutter);
-  padding-bottom: 8px;
+  /* room on both ends so any cover can sit in the centre */
+  padding-inline: calc(50% - var(--card-w) / 2);
+  padding-block: 24px 8px;
   scrollbar-width: none;
+  perspective: 1400px;
 }
 .crate::-webkit-scrollbar { display: none; }
 .card {
   flex: 0 0 var(--card-w);
-  scroll-snap-align: start;
+  margin-inline: calc(var(--card-w) * -0.08);
+  scroll-snap-align: center;
   text-decoration: none;
   display: grid; gap: 10px;
+  transform-style: preserve-3d;
+  position: relative;
+}
+.card:first-child { margin-left: 0; }
+.card:last-child { margin-right: 0; }
+
+/* The flip-through: where the cover sits in the row drives its tilt.
+   Figma analogy: a "scroll position" variable wired to a rotation.
+   Entering from the right = turned away; centre = facing you; leaving left = turned the other way. */
+@keyframes tilt {
+  0%   { transform: rotateY(-38deg) scale(.86); z-index: 1; }
+  50%  { transform: rotateY(0deg)   scale(1);   z-index: 10; }
+  100% { transform: rotateY(38deg)  scale(.86); z-index: 1; }
+}
+@supports (animation-timeline: view()) {
+  .card {
+    animation: tilt linear both;
+    animation-timeline: view(inline);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card { animation: none; }
 }
 .card .cover {
   aspect-ratio: var(--card-ratio);
@@ -117,6 +142,13 @@ p { margin: 0; }
 .card .cap b { font-weight: 500; }
 .card .cap span { color: var(--muted); font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
 .card:hover .cover { outline: 2px solid var(--ink); outline-offset: -2px; }
+.card .cover { box-shadow: 0 24px 40px -28px rgba(0,0,0,.45); }
+/* caption: only the centred cover shows its name (hover/focus always does) */
+@keyframes capfade { 0%,38% { opacity: 0; } 50% { opacity: 1; } 62%,100% { opacity: 0; } }
+@supports (animation-timeline: view()) {
+  .card .cap { animation: capfade linear both; animation-timeline: view(inline); }
+  .card:hover .cap, .card:focus-visible .cap { animation: none; opacity: 1; }
+}
 
 /* placeholder covers until the real images are picked.
    One colour per world, so the row reads as "different rooms". */

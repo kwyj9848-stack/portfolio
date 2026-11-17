@@ -1,17 +1,20 @@
 # 포트폴리오 PM 노트: 권유정 (Yujeong Kwon)
 
-> 이 파일은 Claude Code가 매 세션 시작할 때 읽는 **PM 노트**입니다. 업데이트: 2026-11-16 (세션 3 진행 중)
+> 이 파일은 Claude Code가 매 세션 시작할 때 읽는 **PM 노트**입니다. 업데이트: 2026-11-17 (세션 3 종료)
 
 ---
 
 ## ▶ 다음 세션 시작점 (여기부터 읽기)
 
-1. **저장소 `kwyj9848-stack/portfolio` 생성 완료 (11/16).** Mac의 `~/portfolio`와 이 저장소를 같은 것으로 쓴다. Mac에서 처음 쓸 때는 `git clone https://github.com/kwyj9848-stack/portfolio` 로 받는다.
-2. **GitHub Pages 공개는 사용자가 GitHub 설정에서 켜야 한다.** Settings → Pages → Branch `main` / `(root)` → Save. 주소: `https://kwyj9848-stack.github.io/portfolio/`
-3. **흐름 잡기 진행 중.** 참고 플로우 결정(Colorius vs Villo 분석)과 사용자의 자기 정리 문서를 받은 뒤 섹션 순서를 확정한다. 비주얼 레퍼런스는 사용자가 나중에 준다.
-4. 흐름을 확정한 다음 → 페이지 뼈대(HTML) → CreoDent 케이스 글.
-5. 출국(11/21)까지 남은 시간이 짧다. 흐름 잡기는 **이 세션 안에** 끝낸다.
+**업데이트: 2026-11-17 밤 (세션 3 종료)**
+
+1. **v0 뼈대 공개됨.** `index.html` + `style.css`, 순수 HTML/CSS. 주소 `https://kwyj9848-stack.github.io/portfolio/`. Hero 카드 회전(LP 넘기기, CSS scroll-driven animation)까지 완료. 작업 미리보기는 `archive/*.png`.
+2. **Fraserview 케이스 완료:** `work/fraserview/`. 원본 PT는 `archive/fraserview-pt-original.html`.
+3. **다음에 할 것 (순서):** ① 실제 이미지 3장 넣기 (CreoDent 커버, 본인 사진, BCA 스크린샷은 Claude가 `CICCC_FNL_PJ/bca-home.html`에서 촬영) ② 사용자 비주얼 레퍼런스 받으면 폰트·여백 톤 조정 (`:root` 변수만) ③ LinkedIn 주소·레주메 PDF 연결 ④ CreoDent 상세 페이지 (`work/creodent/`) ⑤ 레주메 Brand 버전 글 ⑥ Amigo 재구성 지시서
+4. **사용자에게 받을 것:** LinkedIn 주소, CreoDent 커버 이미지 1장, 본인 사진 1장, 브로슈어 종수·플라이어 대략, 현재 레주메 텍스트, Amigo 기존 자료.
+5. 출국 11/21. 11/20이 여유일. 밀리면 PDF 전환.
 > 대화는 한국어로, 포트폴리오·레주메 결과물은 영어로 만듭니다.
+> **CLAUDE.md는 세션 끝에 한 번만 업데이트한다. 중간에 일일이 고치지 않는다.** (사용자 요청, 11/16)
 
 ---
 
@@ -40,6 +43,12 @@
 | 출국 전 범위 | **A안: 한 페이지 사이트 v0** (소개 한 줄 + CreoDent 케이스 압축본 + BCA "진행 중" 카드 + 레주메 링크 + 연락처). 나머지는 한국에서 붙인다 |
 | 첫 화면 문구 | 정보형 한 줄로 간다. 최종 문구는 현직자 포폴을 분석한 뒤 정한다. 임시 문구: *"Designer working across brand, marketing, and product. Based in Vancouver."* |
 | 포트폴리오 흐름 | **Brand가 약속하고 → Marketing이 사람을 데려오고 → Product가 약속을 지킨다.** 케이스마다 `Brand` `Marketing` `Product` 태그를 단다 |
+| 포폴 구조 (11/16 확정) | 한 페이지: **Hero(이름+정보형 한 줄+카드 줄) → Work(번호 리스트+태그) → About("How these connect") → Experience(성과 문장+숫자) → Contact.** About이 Work **뒤**에 오는 이유: 작품으로 먼저 신뢰를 만들고, 흐름 설명은 그 뒤에. Hero에 "How these connect →" 링크로 보완 |
+| Hero 비주얼 (11/17 확정) | **LP 넘기기(레코드 크레이트)**: 커버들이 가로 줄로 서 있고 가운데만 정면. 레퍼런스는 cosmos.so/e/696464911 (다크) → **순백 #FFFFFF + 검정, 고대비**로. 색은 카드에서만. 카드 6장: CreoDent, Fraserview, BCA, Starlight, LineLoomArt, About(본인 사진). 구현은 CSS만, 모바일은 스와이프, 미지원 브라우저는 정적 |
+| 컨셉 메시지 | **"Same method, different rooms."** 자아·직업을 나열하지 않는다. "Multidisciplinary"라는 단어는 쓰지 않는다. 적응력은 말로 주장하지 않고 작업물의 대비(세 서브브랜드 등)로 증명한다 |
+| 케이스 4건 (11/16 확정) | 01 CreoDent (Brand·Marketing·Product) / 02 Fraserview (Product, 완료) / 03 BCA (Product, 진행 중) / 04 Amigo (Product, 혼자, 12월). Roomeo는 팀 과제라 Playground로. v0는 3줄만 공개, Amigo는 코드에 주석으로 대기 |
+| CreoDent 케이스 틀 | "내가 다 바꿨다"가 **아니라** "한 브랜드를 여러 채널에서 빠르게 일관되게 + 클라이언트가 다시 찾는 사람". 제목 *A year in-house. Then they called me back.* 세 서브브랜드(Orion·Inosys·Creo, BI는 회사 것) 적용 경험은 Work 01 첫 화면에서 "Three brands, one desk"로. 비자 이야기는 쓰지 않는다 |
+| 네일 | Experience에는 **넣지 않는다**(디자인 경력 아님). About "Beyond the screen" 한 줄만 (11/17) |
 | 팀 프로젝트 | **BCA (Brazilian Community Association of BC) 웹사이트 리디자인** (CICCC 파이널). 역할: low-fi → mid-fi, 팀 전체 무드·디자인 시스템 통일(`DESIGN.md`), 이중언어·접근성. 7년차 개발자와 협업, Claude로 구현한 부분 포함 (11/16 확정) |
 | 네일 경험 | 케이스 스터디가 **아니다**. **About**에서 "1:1 사용자 관찰, raw UX" 근거로 쓴다 (11/16 확정) |
 | 앱 출시 | 별도 앱은 만들지 않는다. 12~1월에 **네일 서비스 AI 프로토타입(작동 링크)** 으로 대체 검토 (11/16 결정) |
@@ -50,13 +59,15 @@
 
 | 단계 | 케이스 | 레이어 | 범위 |
 |---|---|---|---|
-| **v0 (출국 전, ~11/20)** | **CreoDent**: 브랜드 시스템 (SNS 광고·템플릿, 영상, 브로슈어, 전시) | Brand + Marketing | **완성본**. 디지털·멀티채널을 앞에, 인쇄물은 뒤에. 문제 → 접근 → 결과, 숫자 |
-| v0 | **BCA 리디자인** | Product | "진행 중" 카드 1장 (스크린샷 1장 + 역할 3줄) |
-| v1 (한국 체류, 11월 말~12월 중순) | BCA 완성본 + 학교 과제 1건 손질 | Product | 디자인 시스템, Figma Variables, 개발자 협업, Claude 구현 |
-| v2 (12~1월) | 학교 과제 1건 더 + (선택) 네일 서비스 AI 프로토타입 | — | — |
+| **v0 (출국 전, ~11/20)** | **CreoDent** 상세 페이지 | Brand + Marketing + Product | 블록 순서: ① SNS·영상·이메일 ② 전시 4회 ③ eShop 상품 촬영·보정 ④ 세미나 자료 ⑥ 브랜드 환경(내부 툴 2개는 흐름도로) ⑤ 인쇄(잡지 14, BI 브로슈어 Orion·INOSS). 숫자: 영상 8편, 전시 4회(GNYDM + LMT 3), 잡지 광고 14, 이메일 비정기 |
+| ✅ v0 | **Fraserview** | Product | 완료 (`work/fraserview/`) |
+| v0 | **BCA** | Product | Work 줄 + 카드 (스크린샷 1장). 완성본은 한국에서 |
+| v1 (한국 체류) | BCA 완성본 + **Amigo** 재구성 | Product | 북미 케이스 흐름: Overview → Problem → Research → Insights → Process → Solution → Outcome → Reflection |
+| v2 (12~1월) | (선택) 네일 서비스 AI 프로토타입 — About에만 쓰기로 한 결정과 충돌하니 귀국 후 재결정 | — | — |
 | 항상 | About + 레주메 (Visual/Brand 버전), Playground (이미지 몇 장) | — | v0부터 |
 
-- 학교 과제 4건 중 어떤 것을 살릴지는 **제목을 받은 뒤 결정** (미정).
+- 학교 과제: Fraserview(바이크샵 리디자인, Tak과 2인), Roomeo(룸메이트 매칭, 팀), Amigo(이민자·유학생 일반약 검색, 혼자). Roomeo는 Playground.
+- **10/27 "Yujeong Kwon Portfolio" 아티팩트**(19장 인쇄형 덱, claude.ai/artifact/HWQ69xrravfgNiT4eSxu8R)에 CreoDent·Starlight·LineLoomArt·SMC·Ugly So Lovely 이미지가 이미 있다. 이미지 소스로 쓴다.
 - 사이트 구조는 처음부터 케이스 4칸으로 만들고, 빈 칸은 "Coming soon"으로 둔다.
 
 **안전장치:** 사이트가 늦어지면 CreoDent 케이스를 **PDF로 먼저 만들어 지원을 시작한다.**
@@ -116,10 +127,14 @@
 
 - [x] Mac에 Claude 데스크톱 앱 설치 → `portfolio` 폴더 생성
 - [x] GitHub 저장소 만들기 (`kwyj9848-stack/portfolio`) + 빈 `index.html`
-- [ ] **GitHub Pages 켜기** (사용자: Settings → Pages → `main` / root)
-- [ ] **포트폴리오 흐름 잡기** (참고 플로우 결정 + 자기 정리 문서)
-- [ ] 학교 과제 4건 제목 받기 → 살릴 2건 고르기
-- [ ] CreoDent 파일 모으기: Mac (2023.08–2024.08 기간 검색), **바탕화면 두 곳 모두** (로컬 Desktop + iCloud의 "Desktop - 권…" 폴더), 회사 Drive·Dropbox, 이메일, 회사 인스타·웹사이트 스크린샷
+- [x] GitHub Pages 켜기
+- [x] 포트폴리오 흐름 잡기 → 구조·컨셉·바디카피 v1 확정 (index.html에 반영됨)
+- [x] 학교 과제 → Fraserview, Amigo 채택
+- [ ] 실제 이미지 3장 (CreoDent 커버, 본인 사진, BCA 스크린샷)
+- [ ] LinkedIn 주소, 레주메 PDF 연결
+- [ ] 비주얼 레퍼런스 받기 → 폰트·여백 조정
+- [ ] CreoDent 상세 페이지
+- [ ] CreoDent 파일: iCloud `Desktop - 권유정의 MacBook Pro/Creodent` 폴더 (한글 경로는 NFD라 복사해 붙이면 안 열림; `find -iname "*creodent*"`로 찾기). 블록당 2~3장만 고르면 됨. 과거 검색 기준(2024.08–2025.08, **바탕화면 두 곳 모두** (로컬 Desktop + iCloud의 "Desktop - 권…" 폴더), 회사 Drive·Dropbox, 이메일, 회사 인스타·웹사이트 스크린샷
 - [ ] 기억나는 숫자 적기 (제작 수량, 기간, 반응·결과)
 - [ ] CreoDent에 포트폴리오 사용 가능한지 짧게 확인
 - [ ] (보조) 링크드인에서 lululemon·Arc'teryx 현직 Digital/eCommerce/Brand Designer 중 포폴 링크가 있는 5명 찾기 → 비교 분석
@@ -130,8 +145,9 @@
 
 - [ ] 한국 귀국 날짜
 - [ ] 자격증(외국어교육관리사 1급, 2026.06)을 레주메에 어떻게 쓸지 (A 빼고 스토리로만 / B 맨 아래 한 줄)
-- [ ] **사용자의 자기 정리 문서 아직 못 받음**
-- [ ] 학교 과제 4건 목록
+- [ ] 브로슈어 종수, 플라이어 대략, eShop 제품 종수
+- [ ] Amigo 기존 자료 (링크 또는 스크린샷)
+- [ ] 현재 레주메 텍스트
 - [ ] 한국 방문 기간 공부 강도
 - [ ] 장기 체류(영주권 등) 경로 → 공인 이민 컨설턴트에게 따로 확인
 
@@ -146,7 +162,7 @@
 - 한 분야만 하는 디자이너가 아니다: 브랜딩, 마케팅, 시각·그래픽·편집, UX/UI, 프리랜스, 네일 아트, 과거 미술 강사·영어 스터디 강사. **경력이 시간순이 아니라 동시에 진행된다** → 약점이 아닌 강점으로 보여줄 구조가 필요
 
 **경력 (레주메 재료)**
-- CreoDent, New York: Marketing 2D Graphic Designer, **2023.08–2024.08**. 브로슈어, 잡지·SNS 광고, SNS 템플릿, 브랜딩, 카드뉴스, 배송 카드, 사진·영상 촬영 및 편집, 전시회 출장(LMT, Greater New York Dental Meeting). 정규직 전환 제안을 받았으나 비자 문제로 종료
+- CreoDent, New York: Marketing 2D Graphic Designer, **2024.08–2025.08** (11/16 확정; 이전 기록 2023–24는 오류). 브로슈어, 잡지·SNS 광고, SNS 템플릿, 브랜딩, 카드뉴스, 배송 카드, 사진·영상 촬영 및 편집, 전시회 출장(LMT, Greater New York Dental Meeting). 정규직 전환 제안을 받았으나 비자 문제로 종료
 - CreoDent: Freelance Designer, **2024–현재** (프로젝트 단위)
 - 한국 회사 디자인팀: SNS Content Designer Intern, **2023.01–2023.06**
 - 한국 미술학원 SNS 마케팅 (릴스, 블로그, 인스타그램): 원격, 진행 중
